@@ -1,0 +1,90 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <!-- แบบฟอร์มเพิ่มข้อมูล -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0"><i class="fa-solid fa-plus"></i> เพิ่มข้อมูลอุปกรณ์</h5>
+        </div>
+        <div class="card-body">
+          <form method="post" enctype="multipart/form-data" class="needs-validation">
+            {% csrf_token %}
+
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert text-center mt-3 alert-{{ message.tags }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            <div class="table-responsive">
+              <table class="table table-borderless">
+                {{ form.as_table }}
+              </table>
+            </div>
+
+            <div class="text-start mt-3">
+              <button type="submit" class="btn btn-success">
+                <i class="fa-regular fa-floppy-disk"></i> เพิ่มข้อมูล
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- รายงานการขอเครื่อง (สำหรับแอดมิน) -->
+      {% if user.is_authenticated and user.profileuser.usergroup == 'admin' %}
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0"><i class="fa-solid fa-table"></i> รายงานการขอเครื่องคอมพิวเตอร์</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover datatable align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col">วันที่ขอ</th>
+                  <th scope="col">ประเภทคอมพิวเตอร์</th>
+                  <th scope="col">หนังสือบันทึก</th>
+                  <th scope="col">ผู้ขอสนับสนุน</th>
+                  <th scope="col">ผลการพิจารณา</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for cr in Comreq %}
+                <tr>
+                  <td>{{ cr.date }}</td>
+                  <td>{{ cr.comtype }}</td>
+                  <td>
+                    <a href="{{ cr.bookfile.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                      <i class="bi bi-file-earmark-text"></i> ดาวน์โหลด
+                    </a>
+                  </td>
+                  <td>{{ cr.user }}</td>
+                  <td>
+                    {% if cr.consider_result %}
+                      <span class="badge bg-success"><i class="bi bi-check-circle"></i> ผ่านแล้ว</span>
+                    {% else %}
+                      <span class="badge bg-warning text-dark"><i class="bi bi-clock"></i> รอพิจารณา</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+
+{% endblock content %}

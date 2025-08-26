@@ -1,0 +1,100 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ form.media }}
+{% load spareparts_tags %}
+
+<div class="row col-lg-12">
+    <h5>
+        <i class="ri-calendar-event-line">
+            โปรแกรมบันทึกรายการวัสดุคอมพิวเตอร์ 
+        </i>
+    </h5>
+    <ul class="nav">
+         <li class="nav-item">
+            <a aria-current="page" class="nav-link active " href="{% url 'mainspareparts_page'%}">
+                วัสดุคงเหลือ
+            </a>
+        </li>
+     <li class="nav-item">
+            <a aria-current="page" class="nav-link active " href="{% url 'addpartstype_page'%}">
+                เพิ่มชนิดวัสดุคอมพิวเตอร์
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'addstockparts_page'%}">
+                เพิ่มรายการ stock วัสดุคอมพิวเตอร์
+            </a>
+        </li>
+
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'take_a_parts_page'%}">
+                บันทึกรายการเบิกวัสดุคอมพิวเตอร์
+            </a>
+        </li>
+     <li class="nav-item">
+            <a class="nav-link" href="{% url 'alltake_a_parts_page' %}">
+                รายการเบิกวัสดุคอมพิวเตอร์ทั้งหมด
+            </a>
+        </li>
+    </ul>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            รายการคงเหลือวัสดุคอมพิวเตอร์
+                        </h5>
+                
+                    <!-- {% csrf_token %} -->
+                    <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                       <table class="table table-hover">
+                        <!-- {{ serverform.as_table }} -->
+                        <thead>
+                        <tr>
+                        <th>รายการ</th>
+                        <th>สเปค</th>
+                        <th>รายละเอียด</th>
+                        <th>จำนวนคงเหลือ(ชิ้น)</th>
+                        <th>จำนวนเบิกใช้งาน</th>
+                        </tr>
+                        </thead>
+                        {% for st in stock %}
+                        <tr>
+                            <td>{{st.parts_cat_name}}</td>
+                            <td>{{st.parts_sub_name}}</td>
+                            <td>{{st.parts_details}}</td>
+                            <td>{{st.amount}}</td>
+                            <td>{{ usage_dict|get_item:st.id|default:"0" }}</td>
+                            <td></td>
+                           
+                        </tr>
+                        {% endfor %}                       
+                    </table>
+                    </div>
+                </div>
+
+            </div>
+                       
+
+
+                 
+             
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+<br>
+ 
+   
+
+{% endblock content %}
+
+#summernote install dont forget
+</br>

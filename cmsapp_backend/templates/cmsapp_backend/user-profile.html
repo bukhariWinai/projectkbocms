@@ -1,0 +1,104 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+
+<header class="bg-primary text-white py-3 mb-4">
+    <div class="container">
+      <h4 class="mb-0"><i class="bi bi-list-check"></i> ข้อมูลโปรไฟล์</h4>
+    </div>
+</header>
+<section class="section profile">
+    {% if user.is_authenticated %}
+    <div class="row">
+        <!-- Profile Left Card -->
+        <div class="col-xl-4">
+            <div class="card">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+                    <img alt="Profile" src="{{ user.profileuser.photo.url|default:'/static/images/default.png' }}" class="rounded-circle mb-3" width="120" height="120" />
+
+                    <h6>ชื่อเจ้าหน้าที่ : {{ user.first_name }}</h6>
+                    <h6>โปรไฟล์: {{ user.profileuser.usergroup }}</h6>
+
+                    <div class="pt-2">
+                        <a class="btn btn-primary btn-sm" href="{% url 'updateprofile_page' user.profileuser.id %}" title="แก้ไขโปรไฟล์">
+                            <i class="bi bi-pencil-square"></i> แก้ไขโปรไฟล์
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Right Detail -->
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-body pt-3">
+                    <!-- Tabs -->
+                    <ul class="nav nav-tabs nav-tabs-bordered">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-target="#profile-overview" data-bs-toggle="tab">
+                                ข้อมูลโปรไฟล์
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content pt-2">
+                        <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                            <h5 class="card-title">เกี่ยวกับ</h5>
+                            <p class="small fst-italic">-</p>
+
+                            <h5 class="card-title">รายละเอียดโปรไฟล์</h5>
+
+                            <div class="row mb-3">
+                                <div class="col-lg-3 col-md-4 label"><i class="bi bi-person-fill"></i> ชื่อ</div>
+                                <div class="col-lg-9 col-md-8">{{ user.first_name }} {{ user.last_name }}</div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-lg-3 col-md-4 label"><i class="bi bi-briefcase-fill"></i> ตำแหน่ง</div>
+                                <div class="col-lg-9 col-md-8">{{ user.profileuser.jobposition_name }}</div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-lg-3 col-md-4 label"><i class="bi bi-diagram-3-fill"></i> กลุ่มงาน</div>
+                                <div class="col-lg-9 col-md-8">{{ user.profileuser.sections }}</div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-lg-3 col-md-4 label"><i class="bi bi-calendar-check-fill"></i> เข้าร่วมเมื่อ</div>
+                                <div class="col-lg-9 col-md-8">{{ user.date_joined|date:"d M Y" }}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- End Tabs -->
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+
+{% if messages %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    {% for message in messages %}
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: '{% if message.tags == "error" %}error{% elif message.tags == "success" %}success{% else %}info{% endif %}',
+        title: '{{ message|escapejs }}',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+      });
+    {% endfor %}
+  });
+</script>
+{% endif %}
+
+
+
+{% endblock content %}

@@ -1,0 +1,199 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ form.media }}
+
+   <section class="section">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center ">
+              
+               {% for img in comphoto %}
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center ">
+                    
+                     <img class="rounded img-thumb" src="{{img.img_vdoconf.url }}" width="350px"
+                                    style="cursor: pointer;" alt="ภาพอุปกรณ์"
+                                    onclick="showImage('{{img.img_vdoconf.url }}')">
+                </div>
+                {% endfor %}
+
+                            
+            </div>
+          </div>
+          
+        </div>
+        <div class="col-lg-8">
+
+          <div class="card">
+            <div class="card-body">
+              <span><i class="ri-macbook-line" style="font-size:45px; color:blue;">&nbsp รายละเอียดสรุปการประชุม conference</i></span><span></span>
+              <div class="col-lg-12">
+
+
+                <table class="table">
+                            <thead>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        วันที่ซ่อม:
+                                    </th>
+                                    <td>
+                                      {{confdetail.vdoconfdate}}
+                                       
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        หัวข้อการประชุม:
+                                    </th>
+                                    <td>
+                                        {{confdetail.vdoconftitle}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                            สรุปการประชุม:
+                                    </th>
+                                    <td>
+                                        {{confdetail.confDetail|safe }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        youtube:
+                                    </th>
+                                    <td>
+                                        {{confdetail.link_url_vdo}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        ผู้บันทึก:
+                                    </th>
+                                    <td>
+                                        {{confdetail.user}}
+                                    </td>
+                                </tr>
+      
+
+                            
+
+                                </tr>
+                            </tbody>
+                        </table>
+                      
+            
+              <div class="col-lg-6">
+                    <span><div class="btn btn-info text-end  align-items-center  mt-5 "><i class="ri-file-info-line"></i><a href="{% url 'allconf_page' %}">&nbsp กลับหน้าหลัก</a></div></span>
+
+              </div>     
+
+      </div>  
+
+    </div>
+  </div>
+  <!-- Image Overlay -->
+<div id="imageOverlay" style="
+    display: none !important;
+    position: fixed; 
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: auto;
+    padding: 20px;
+     flex-direction: column;
+
+    text-align: center; /* เพิ่มให้ข้อความตรงกลางด้วย */
+">
+    <div style="position: relative;">
+        <button onclick="closeImage()" style="
+            position: absolute; top: -15px; right: -15px;
+            background: red; color: white; border: none;
+            border-radius: 50%; width: 30px; height: 30px;
+            font-size: 20px; cursor: pointer; z-index: 10001;">×</button>
+        <img id="overlayImage" src="" alt="รูปภาพ" style="border: 4px solid white; display: block;">
+    </div>
+    <p class="exit-hint">กด <b>Esc</b> หรือคลิก ❌ เพื่อออกจากภาพ</p>
+</div>
+
+<!-- Add to your template -->
+<script>
+  document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    
+    fetch(window.location.href, { method: 'POST', body: formData })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById('id_former_user').value = '';  // Clear textbox by ID
+          document.getElementById('id_date_return').value = ''; // Clear date field
+        }
+      });
+  });
+
+
+
+  function showImage(imageUrl) {
+    const overlay = document.getElementById("imageOverlay");
+    const img = document.getElementById("overlayImage");
+
+    // โหลดรูปเพื่ออ่านขนาดจริง
+    const tempImg = new Image();
+    tempImg.onload = function () {
+      const originalWidth = tempImg.naturalWidth;
+      const originalHeight = tempImg.naturalHeight;
+
+      img.src = imageUrl;
+      img.style.width = (originalWidth / 2) + 'px';
+      img.style.height = 'auto';
+
+      overlay.style.display = "flex";
+    };
+    tempImg.src = imageUrl;
+  }
+
+  function closeImage() {
+    document.getElementById("imageOverlay").style.display = "none";
+    document.getElementById("overlayImage").src = "";
+  }
+
+  // ปิดด้วย ESC
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeImage();
+    }
+  });
+
+  // ปิดเมื่อคลิกพื้นหลัง
+  document.getElementById('imageOverlay').addEventListener('click', function(e) {
+    if (e.target.id === 'imageOverlay') {
+      closeImage();
+    }
+  });
+
+    // ซ่อน popup และล้าง src เมื่อโหลดหน้าใหม่
+   window.addEventListener('load', function () {
+    const overlay = document.getElementById("imageOverlay");
+    const img = document.getElementById("overlayImage");
+
+    if (overlay) {
+      overlay.style.display = "none";
+    }
+
+    if (img) {
+      img.src = "";
+    }
+  });
+
+
+</script>
+
+{% endblock content %}

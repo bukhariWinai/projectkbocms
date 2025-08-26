@@ -1,0 +1,107 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ form.media }}
+ <section class="section">
+  <div class="container">
+    <div class="row g-4">
+
+      <!-- แสดงข้อมูลการยืม -->
+      <div class="col-lg-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title text-primary mb-4">
+              <i class="ri-computer-line me-2"></i>รายการยืมครุภัณฑ์คอมพิวเตอร์
+            </h5>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th scope="row" style="width: 40%;">
+                      <i class="ri-calendar-line text-info me-2"></i>วันที่ขอยืม:
+                    </th>
+                    <td>{{ borrowitem.datestart }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <i class="ri-cpu-line text-success me-2"></i>ประเภทอุปกรณ์:
+                    </th>
+                    <td>{{ borrowitem.comtype }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <i class="ri-lightbulb-line text-warning me-2"></i>จุดประสงค์การใช้งาน:
+                    </th>
+                    <td>{{ borrowitem.remark }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <i class="ri-calendar-check-line text-primary me-2"></i>วันที่คืน:
+                    </th>
+                    <td>{{ borrowitem.datefinish }}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">
+                      <i class="ri-user-line text-secondary me-2"></i>ผู้ขอยืม:
+                    </th>
+                    <td>{{ borrowitem.user_borrow }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- แก้ไขข้อมูล (เฉพาะ admin / trainee) -->
+      {% if user.is_authenticated and user.profileuser.usergroup == 'admin' or user.profileuser.usergroup == 'trainee' %}
+      <div class="col-lg-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title text-primary mb-4">
+              <i class="ri-calendar-check-line me-2"></i>บันทึกการขอยืมครุภัณฑ์คอมพิวเตอร์
+            </h5>
+
+            <form action="" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }} text-center">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+
+              {% for field in EditBorrowItem.visible_fields %}
+                <div class="mb-3">
+                  <label for="{{ field.id_for_label }}" class="form-label">
+                    {{ field.label_tag }}
+                  </label>
+                  {{ field }}
+                  {% if field.help_text %}
+                    <div class="form-text text-muted">{{ field.help_text }}</div>
+                  {% endif %}
+                  {% for error in field.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% endfor %}
+
+              <div class="d-flex justify-content-center mt-4">
+                <button type="submit" class="btn btn-warning">
+                  <i class="ri-tools-fill"></i>&nbsp บันทึกข้อมูล
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+
+
+
+{% endblock content %}

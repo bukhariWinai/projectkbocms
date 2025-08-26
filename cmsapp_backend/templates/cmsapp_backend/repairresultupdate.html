@@ -1,0 +1,185 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ UpdateRepairItem.media }}
+<section class="section">
+  <div class="row">
+
+    <!-- Left Column: Repair Detail -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            <i class="ri-computer-line"></i> บันทึกการซ่อมครุภัณฑ์คอมพิวเตอร์
+          </h5>
+          <div class="container">
+            <table class="table">
+              <tbody>
+               
+                <tr>
+                  <th scope="row"><i class="ri-calendar-line"></i> วันที่แจ้งซ่อม :</th>
+                  <td>{{ repairitem.datestart }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-user-3-line"></i> ผู้แจ้งซ่อม :</th>
+                  <td>{{ repairitem.owner }}&nbsp;{{ repairitem.owner.sections }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-barcode-line"></i> เลขครุภัณฑ์ :</th>
+                  <td>{{ repairitem.deviceID }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-error-warning-line"></i> อาการแจ้งเสีย :</th>
+                  <td>{{ repairitem.repaircase }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-tools-line"></i> วิธีซ่อม :</th>
+                  <td>{{ repairitem.repairmethod|safe }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-shield-check-line"></i> หมายเลขแจ้งเคลม :</th>
+                  {% if repairitem.clamnumber == None %}
+                  <td>-</td>
+                  {% else %}
+                  <td>{{ repairitem.clamnumber }}</td>
+                  {% endif %}
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-settings-2-line"></i> อะไหล่ที่เปลี่ยน :</th>
+                  {% if repairitem.part_cat_change == None %}
+                  <td>-</td>
+                  {% else %}
+                  <td>{{ repairitem.part_cat_change }}</td>
+                  {% endif %}
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-cpu-line"></i> รุ่นอะไหล่ :</th>
+                  {% if repairitem.part_sub_change == None %}
+                  <td>-</td>
+                  {% else %}
+                  <td>{{ repairitem.part_sub_change }}</td>
+                  {% endif %}
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-information-line"></i> สถานะปัจจุบัน :</th>
+                  <td>{{ repairitem.repairstatus }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-user-settings-line"></i> ผู้ตรวจซ่อม :</th>
+                  <td>{{ repairitem.engineering }}</td>
+                </tr>
+                 <tr>
+                  <th scope="row"><i class="ri-user-settings-line"></i> ผู้รับงานซ่อม :</th>
+                  <td>{{ repairitem.itsupport }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-file-copy-2-line"></i> เลขหนังสืออนุมัติ :</th>
+                  {% if repairitem.memobooknumber == None %}
+                  <td>-</td>
+                  {% else %}
+                  <td>{{ repairitem.memobooknumber }}</td>
+                  {% endif %}
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-coins-line"></i> งบประมาณการซ่อม :</th>
+                  <td>{{ repairitem.budget }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-calendar-check-line"></i> วันดำเนินการ :</th>
+                  {% if repairitem.datefinish == None %}
+                  <td>-</td>
+                  {% else %}
+                  <td>{{ repairitem.datefinish }}</td>
+                  {% endif %}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Edit Form -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            <i class="ri-edit-2-line"></i> บันทึกรายละเอียดการสั่งอะไหล่ซ่อมคอมพิวเตอร์
+          </h5>
+
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+
+            {% if messages %}
+              {% for message in messages %}
+              <div class="alert text-center mt-3 alert-{{ message.tags }}">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+
+            <table class="table">
+              {{ UpdateRepairItem.as_table }}
+            </table>
+
+            <div class="d-flex justify-content-start mt-3">
+              <button type="submit" class="btn btn-warning">
+                <i class="ri-tools-fill"></i> แก้ไขการซ่อม
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+</section>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const partCatSelect = document.getElementById("id_part_cat_change");
+  const partSubSelect = document.getElementById("id_part_sub_change");
+
+  if (partCatSelect && partSubSelect) {
+    partCatSelect.addEventListener("change", function () {
+      const cat_id = this.value;
+
+      if (!cat_id) {
+        partSubSelect.innerHTML = '<option value="">--- เลือกสเปค ---</option>';
+        partSubSelect.disabled = true;
+        return;
+      }
+
+      partSubSelect.disabled = true;
+      partSubSelect.innerHTML = '<option disabled selected>⏳ กำลังโหลด...</option>';
+
+      fetch("{% url 'load_subcategories_bkend_page' %}?category_id=" + cat_id)
+        .then(response => response.json())
+        .then(data => {
+          partSubSelect.innerHTML = '<option value="">--- เลือกสเปค ---</option>';
+
+          if (data.length === 0) {
+            partSubSelect.innerHTML += '<option value="">ไม่มีข้อมูลสเปค</option>';
+          } else {
+            data.forEach(item => {
+              partSubSelect.innerHTML += `<option value="${item.id}">${item.parts_sub_name}</option>`;
+            });
+          }
+
+          partSubSelect.disabled = false;
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          partSubSelect.innerHTML = '<option value="">เกิดข้อผิดพลาดในการโหลด</option>';
+          partSubSelect.disabled = true;
+        });
+    });
+  }
+});
+</script>
+
+
+
+
+{% endblock content %}

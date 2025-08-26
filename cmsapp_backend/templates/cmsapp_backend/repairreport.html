@@ -1,0 +1,117 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ form.media }}
+<section class="section">
+  <div class="row">
+    <div class="col-lg-9">
+
+      <div class="card">
+        <div class="card-body">
+          <div class="mb-3 d-flex align-items-center">
+            <i class="ri-tools-fill" style="font-size: 45px; color: blue;"></i>
+            <span class="ms-3 fs-4 fw-bold">รายงานการซ่อมครุภัณฑ์คอมพิวเตอร์</span>
+          </div>
+
+          <div class="container">
+            <!-- Default Table -->
+            <table class="table table-hover datatable">
+              <thead>
+                <tr>
+                  <th colspan="2">รายละเอียดการซ่อม</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><i class="ri-calendar-check-line"></i> วันที่แจ้งซ่อม:</th>
+                  <td>{{ repairReport.datestart }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-user-3-line"></i> ผู้แจ้งซ่อม:</th>
+                  <td>{{ repairReport.owner }} <span class="ms-2">{{ repairReport.owner.sections }}</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-barcode-box-line"></i> เลขครุภัณฑ์:</th>
+                  <td>{{ repairReport.deviceID }}</td>
+                </tr>
+                 <tr>
+                  <th scope="row"><i class="ri-barcode-box-line"></i> หมายเลขใบแจ้งซ่อม/เบิกวัสดุ:</th>
+                  {% if repairReport.clamnumber %}
+                  <td>{{ repairReport.clamnumber }}</td>
+                  {% else %}
+                  <td>-</td>
+                  {% endif  %}
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-stethoscope-line"></i> อาการแจ้งเสีย:</th>
+                  <td>{{ repairReport.repaircase }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-tools-line"></i> วิธีการซ่อม:</th>
+                  <td>{{ repairReport.repairmethod|safe }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-cpu-line"></i> อะไหล่ทดแทน:</th>
+                  <td>
+                    {% if not repairReport.part_cat_change %}
+                      ไม่มี
+                    {% else %}
+                      {{ repairReport.part_cat_change }}
+                    {% endif %}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-slideshow-line"></i> สเปคคุณลักษณะ:</th>
+                  <td>
+                    {% if not repairReport.part_sub_change %}
+                      ไม่มี
+                    {% else %}
+                      {{ repairReport.part_sub_change }}
+                    {% endif %}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-information-line"></i> สถานะปัจจุบัน:</th>
+                  <td>{{ repairReport.repairstatus }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-file-paper-2-line"></i> เลขหนังสือบันทึกข้อความ:</th>
+                  <td>{{ repairReport.memobooknumber }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-coins-line"></i> งบประมาณการซ่อม:</th>
+                  <td>{{ repairReport.budget }}.-&nbsp;&nbsp;บาท</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-calendar-check-fill"></i> วันที่ซ่อมเสร็จ:</th>
+                  <td>{{ repairReport.datefinish }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-user-settings-line"></i> ผู้ดำเนินการซ่อม:</th>
+                  <td>{{ repairReport.engineering }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"><i class="ri-user-settings-line"></i> ผู้ปฏิบัติงานซ่อม:</th>
+                  <td>{{ repairReport.itsupport }}</td>
+                </tr>
+                <tr>
+                  <th scope="row"></th>
+                  <td>
+                    <a href="{% url 'showallrepair_page' %}" class="btn btn-info">
+                      <i class="ri-arrow-go-back-fill"></i> หน้ารายการซ่อม
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+{% endblock content %}

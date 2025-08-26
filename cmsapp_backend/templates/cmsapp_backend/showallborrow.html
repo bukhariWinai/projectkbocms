@@ -1,0 +1,64 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+
+ <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">รายการยื่มครุภัณฑ์</h5>
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                  
+                    <th>ผู้ขอยื่ม</th>
+                    <th>วันที่ยื่ม</th>                    
+                    <th>ชนิดครุภัณฑ์</th>
+                    <th>จุดประสงค์การใช้งาน</th>
+                    <th>บันทึกข้อมูล</th>
+                                    
+                  </tr>
+                </thead>
+                  
+                <tbody>
+                  {% for br in showborrow %}
+                  <tr>
+                    <td>{{br.user_borrow}}</td>  
+                    <td>{{br.datestart}}</td>
+                    <td>{{br.comtype}}</td>
+                    <td>{{br.remark}}</td>                                    
+
+                    <td>
+                      {% if br.deviceStatus == False %} <!-- False0 = พร้อมให้ยื่ม  True1 = กำลังยื่มใช้งาน -->
+                        <a href="{% url 'borrowedit_page' br.id %}"><i class="ri-draft-line" style="font-size:24px;"></i></a>
+                               
+                      
+                      {% elif br.returnBack == False %} <!-- Fales0 = พร้อมให้ยื่ม  1 = กำลังยื่มใช้งาน -->
+                        <a href="{% url 'borrowreturn_page' br.id %}"><i class="bx bx-recycle" style="font-size:24px;"></i></a>
+                      {% elif  br.returnBack == True %} 
+                        <a href="{% url 'borrowreport_page' br.id %}"><i class="ri-bill-line" style="font-size:24px;"></i></a>
+
+                      {% endif %}
+
+                    </td>
+
+                  </tr> 
+                  {% endfor %}
+                </tbody>
+                
+
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    
+{% endblock content %}

@@ -1,0 +1,112 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+<!-- ======= Page Header ======= -->
+<header class="bg-primary text-white py-4 mb-4 shadow-sm">
+    <div class="container">
+        <h2 class="mb-0">
+            <i class="bi bi-person-lines-fill me-2"></i> แก้ไขข้อมูลโปรไฟล์
+        </h2>
+    </div>
+</header>
+<!-- ======= End Page Header ======= -->
+
+<!-- ======= Profile Section ======= -->
+<section class="section profile">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <!-- Profile Card -->
+            <div class="col-xxl-4 col-lg-5 mb-4">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body text-center p-4">
+                        <h5 class="card-title mb-3">
+                            ชื่อผู้ใช้งาน: 
+                            <span class="text-primary">{{ edituser.user.first_name }}</span>
+                        </h5>
+                        <div class="d-flex justify-content-center">
+                            <img src="{{ edituser.photo.url|default:'/static/images/default.png' }}"
+                                 alt="Profile Photo"
+                                 class="rounded-circle border border-3 border-primary"
+                                 style="width:150px; height:150px; object-fit:cover;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Card -->
+            <div class="col-xxl-8 col-lg-7">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-3">
+                            <i class="bi bi-pencil-square me-1"></i> แก้ไขข้อมูล
+                        </h5>
+
+                        <!-- Message alerts -->
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} text-center">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <!-- Form -->
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="table-responsive">
+                                <table class="table table-borderless align-middle mb-4">
+                                    {{ UpdateUser.as_table }}
+                                </table>
+                            </div>
+
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-warning px-4 py-2 w-100 w-md-auto">
+                                    <i class="bi bi-save me-1"></i> บันทึกข้อมูล
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ======= JS for image preview and loading spinner ======= -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const fileInput = document.getElementById("id_photo");
+    const preview = document.querySelector("img[alt='Profile Photo']");
+    const form = document.querySelector("form");
+    const submitBtn = form.querySelector("button[type='submit']");
+
+    // Preview image
+    if (fileInput && preview) {
+        fileInput.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith("image/")) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Submit loading spinner
+    form.addEventListener("submit", function () {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            กำลังบันทึก...
+        `;
+    });
+});
+</script>
+
+{% endblock content %}

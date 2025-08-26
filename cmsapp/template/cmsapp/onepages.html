@@ -1,0 +1,89 @@
+{% extends 'cmsapp/base.html' %}
+{% load static %}
+{% block content %}
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="page-header d-flex align-items-center" style="background-image: url('');">
+        <div class="container position-relative">
+          <div class="row d-flex justify-content-center">
+            <div class="col-lg-6 text-center">
+              <h2>ข่าว ONEPAGE</h2>
+              <p>สำนักงานสาธารณสุขจังหวัดกระบี่</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav>
+        <div class="container">
+          <ol>
+            <li><a href="{% url 'home_page'%}">Home</a></li>
+            <li><a href="{% url 'onepages_page'%}">ข่าว ONEPAGE</a></li>
+          </ol>
+        </div>
+      </nav>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Blog Section ======= -->
+    <section id="blog" class="blog">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row gy-4 posts-list">
+
+          {% for op in All_onepage %}
+
+          <div class="col-xl-4 col-md-6">
+            <article>
+
+              <div class="">
+                <img src="{{ op.file.url }}" alt="" class="img-fluid">
+              </div>
+
+              <div><p class="post-category"><i class="bi bi-newspaper">&nbsp</i>{{op.category}}</p></div>
+
+              <div><p class="post-category">
+                <i class="bi bi-file">
+                  <a href="{% url 'onepagedetail_page' op.id %}">{{op.title}}</a>
+                </i>
+              </p></div>
+
+              <div class="d-flex align-items-center">
+                <img src="{{op.reporter.photo.url}}" alt="" class="img-fluid post-author-img flex-shrink-0">
+                <div class="post-meta">
+                  <p class=""><i class="bi bi-feather">&nbsp </i>{{op.user}}</p>
+                  <p class="post-date">
+                    <i class="bi bi-calendar-event">&nbsp </i><time datetime="2022-01-01">{{op.postdate}}</time>
+                  </p>
+                </div>
+              </div>
+
+            </article>
+          </div>
+          {% endfor %}
+          <!-- End post list item -->
+        </div><!-- End blog posts list -->
+
+        <div class="blog-pagination">
+          <ul class="justify-content-center">
+            {% if All_onepage.has_previous %}
+            <li><a href="?page={{All_onepage.previous_page_number}}">{{All_onepage.number|add:-1}}</a></li>
+            {% endif %}
+
+            <li class="active"><a href="?page={{All_onepage.number}}">{{All_onepage.number}}</a></li>           
+
+            {% if All_onepage.has_next %}
+
+            <li><a href="?page={{All_onepage.next_page_number}}">{{All_onepage.number|add:1}}</a></li>
+            {% endif %}
+          </ul>
+        </div><!-- End blog pagination -->
+
+      </div>
+    </section><!-- End Blog Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+{% endblock content %}

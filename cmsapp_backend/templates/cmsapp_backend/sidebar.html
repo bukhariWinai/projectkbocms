@@ -1,0 +1,165 @@
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+  
+    {% with request.resolver_match.url_name as url_name %}
+    
+    <!-- Dashboard -->
+    <li class="nav-item">
+      <a class="nav-link {% if url_name == 'itadmin_page' %}active{% else %}collapsed{% endif %}" href="{% url 'itadmin_page' %}">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    
+    <!-- สำหรับแอดมิน -->
+    {% if user.is_authenticated and user.profileuser.usergroup == 'admin' %}
+    <li class="nav-item">
+      <a class="nav-link {% if url_name in 'com_management_page cybersecurity_management_page addcyberpolicy_page showalluser_page' %}active{% else %}collapsed{% endif %}" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+        <i class="bi bi-layout-text-window-reverse"></i><span>สำหรับแอดมิน</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="tables-nav" class="nav-content collapse {% if url_name in 'com_management_page cybersecurity_management_page addcyberpolicy_page showalluser_page' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{% url 'com_management_page' %}" class="{% if url_name == 'com_management_page' %}active{% endif %}">
+            <i class="bi bi-circle"></i><span>ระบบบริหารคอมพิวเตอร์</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'cybersecurity_management_page' %}" class="{% if url_name == 'cybersecurity_management_page' %}active{% endif %}">
+            <i class="bi bi-circle"></i><span>ระบบแจ้ง Cyber Security</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'addcyberpolicy_page' %}" class="{% if url_name == 'addcyberpolicy_page' %}active{% endif %}">
+            <i class="bi bi-circle"></i><span>ระบบประกาศนโยบาย</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'showalluser_page' %}" class="{% if url_name == 'showalluser_page' %}active{% endif %}">
+            <i class="bi bi-circle"></i><span>รายชื่อผู้ใช้งาน</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    {% endif %}
+  
+    <!-- การตั้งค่าเว็บไซต์ -->
+    {% if user.is_authenticated and user.profileuser.usergroup == 'admin' %}
+    <li class="nav-item">
+      <a class="nav-link {% if url_name in 'headersetting_page footersetting_page' %}active{% else %}collapsed{% endif %}" data-bs-target="#components-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+        <i class="bi bi-menu-button-wide"></i><span>การตั้งค่าเว็บไซต์</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav" class="nav-content collapse {% if url_name in 'headersetting_page footersetting_page' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="{% url 'headersetting_page' %}" class="{% if url_name == 'headersetting_page' %}active{% endif %}">
+            <i class="bi bi-circle"></i><span>ตั้งค่าส่วนหัวเว็บไซต์</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'footersetting_page' %}" class="{% if url_name == 'footersetting_page' %}active{% endif %}">
+            <i class="bi bi-circle"></i><span>ตั้งค่ารูปทีมผู้บริหาร</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    {% endif %}
+  
+    <!-- ตั้งค่าข้อมูลพื้นฐานเว็บไซต์ -->
+    {% if user.is_authenticated and user.profileuser.usergroup == 'admin' %}
+    <li class="nav-item">
+      <a class="nav-link {% if url_name in 'fontaweasome_page newscategory_page sectionbk_page adsbanner_page external-link_page addourservice_page addofficecenter_page' %}active{% else %}collapsed{% endif %}" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+        <i class="bi bi-journal-text"></i><span>ตั้งค่าข้อมูลพื้นฐานเว็บไซต์</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="forms-nav" class="nav-content collapse {% if url_name in 'fontaweasome_page newscategory_page sectionbk_page adsbanner_page external-link_page addourservice_page addofficecenter_page' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+        <li><a href="{% url 'fontaweasome_page' %}" class="{% if url_name == 'fontaweasome_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>เพิ่ม FontAweasome</span></a></li>
+        <li><a href="{% url 'newscategory_page' %}" class="{% if url_name == 'newscategory_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>เพิ่ม กลุ่มบทความ</span></a></li>
+        <li><a href="{% url 'sectionbk_page' %}" class="{% if url_name == 'sectionbk_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>เพิ่ม กลุ่มงานหน่วยงาน</span></a></li>
+        <li><a href="{% url 'adsbanner_page' %}" class="{% if url_name == 'adsbanner_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>เพิ่ม Banner ประชาสัมพันธ์</span></a></li>
+        <li><a href="{% url 'external-link_page' %}" class="{% if url_name == 'external-link_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>เพิ่ม ลิงค์หน่วยงานอื่นๆ</span></a></li>
+        <li><a href="{% url 'addourservice_page' %}" class="{% if url_name == 'addourservice_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>เพิ่ม บริการหน่วยงาน</span></a></li>
+        <li><a href="{% url 'addofficecenter_page' %}" class="{% if url_name == 'addofficecenter_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>เพิ่มโปรแกรมสำนักงาน</span></a></li>
+      </ul>
+    </li>
+    {% endif %}
+  
+    <!-- โมดูลบันทึกข้อมูลสำหรับเจ้าหน้าที่ -->
+    {% if user.profileuser.usergroup == 'admin' or user.profileuser.usergroup == 'editer' or user.profileuser.usergroup == 'reporter' %}
+    <li class="nav-item">
+      <a class="nav-link {% if url_name in 'addnewform_page addfiledownload_page addconference_page addartical_page onepagebk_page showcomreq_page' %}active{% else %}collapsed{% endif %}" data-bs-target="#forms2-nav" data-bs-toggle="collapse" href="javascript:void(0);">
+        <i class="bi bi-journal-text"></i><span>โมดูลบันทึกข้อมูลสำหรับเจ้าหน้าที่</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="forms2-nav" class="nav-content collapse {% if url_name in 'addnewform_page addfiledownload_page addconference_page addartical_page onepagebk_page showcomreq_page' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+        <li><a href="{% url 'addnewform_page' %}" class="{% if url_name == 'addnewform_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>โมดูลลงข่าว</span></a></li>
+        <li><a href="{% url 'addfiledownload_page' %}" class="{% if url_name == 'addfiledownload_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>โมดูลฝากเอกสาร...</span></a></li>
+        <li><a href="{% url 'addconference_page' %}" class="{% if url_name == 'addconference_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>โมดูลเอกสารการประชุม</span></a></li>
+        <li><a href="{% url 'addartical_page' %}" class="{% if url_name == 'addartical_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>โมดูลบทความสุขภาพ</span></a></li>
+        <li><a href="{% url 'onepagebk_page' %}" class="{% if url_name == 'onepagebk_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>โมดูล OnePage</span></a></li>
+        <li><a href="{% url 'showcomreq_page' %}" class="{% if url_name == 'showcomreq_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>โมดูลขอสนับสนุนเครื่องคอมพิวเตอร์</span></a></li>
+      </ul>
+    </li>
+    {% endif %}
+  
+    <!-- โมดูลสำหรับนักศึกษาฝึกงาน -->
+    {% if user.profileuser.usergroup == 'admin' or user.profileuser.usergroup == 'trainee' %}
+    <li class="nav-item">
+      <a class="nav-link {% if url_name in 'addtrainee_page showtrainee_page addworkreport_page allworkreportview_page' %}active{% else %}collapsed{% endif %}" data-bs-target="#trainee" data-bs-toggle="collapse" href="javascript:void(0);">
+        <i class="bi bi-journal-text"></i>
+        {% if count_all_repair != 0 %}
+        <i class="ri ri-tools-fill" style="font-size:10px;">
+          <span class="badge bg-danger badge-number">{{ count_all_repair }}</span>
+        </i>
+        {% endif %}
+        <span>โมดูลสำหรับนักศึกษาฝึกงาน</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="trainee" class="nav-content collapse {% if url_name in 'addtrainee_page showtrainee_page addworkreport_page allworkreportview_page' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+        <li><a href="{% url 'addtrainee_page' %}" class="{% if url_name == 'addtrainee_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>ลงทะบียนนักศึกษาฝึกงาน</span></a></li>
+        <li><a href="{% url 'showtrainee_page' %}" class="{% if url_name == 'showtrainee_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>ทะเบียนนักศึกษาฝึกงาน</span></a></li>
+        <li><a href="{% url 'addworkreport_page' %}" class="{% if url_name == 'addworkreport_page' %}active{% endif %}"><i class="bi bi-circle"></i><span>เพิ่มทักษะนักศึกษา</span></a></li>
+        <li>
+          <a href="{% url 'allworkreportview_page' %}" class="{% if url_name == 'allworkreportview_page' %}active{% endif %}">
+            <i class="bi bi-circle"></i><span>รายงานการปฎิบัติงาน</span>
+            {% if count_all_repair != 0 %}
+            <i class="ri ri-tools-fill" style="font-size:10px;">
+              <span class="badge bg-danger badge-number">{{ count_all_repair }}</span>
+            </i>
+            {% endif %}
+          </a>
+        </li>
+      </ul>
+    </li>
+    {% endif %}
+  
+    <!-- อื่น ๆ -->
+    {% if user.profileuser.usergroup == 'admin' %}
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'homeconf_page' %}">
+        <i class="bi bi-journal-text"></i><span>สรุปบันทึกวิดีโอการประชุม AI</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'addserver_page' %}">
+        <i class="bi bi-display"></i><span>บันทึกการบำรุงรักษาเครื่องคอมพิวเตอร์ SERVER</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'mainspareparts_page' %}">
+        <i class="bi bi-display"></i><span>Stock อะไหล่ทดแทน</span>
+      </a>
+    </li>
+    {% endif %}
+  
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{% url 'home_page' %}">
+        <i class="bi bi-journal-text"></i><span>หน้าเว็บหลัก</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="javascript:void(0);">
+        <i class="bi bi-bug"></i><span>Debug-Report</span>
+      </a>
+    </li>
+    
+    {% endwith %}
+  </ul>
+</aside><!-- End Sidebar -->

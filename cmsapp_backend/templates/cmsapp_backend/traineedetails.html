@@ -1,0 +1,101 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ form.media }}
+<section class="section">
+  <div class="row">
+    {% for tn in trainee %}
+      <div class="col-lg-8">
+        <div class="card shadow-sm mb-3">
+
+          <!-- card-header ใหม่ -->
+          <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-person-lines-fill"></i> ประวัตินักศึกษาฝึกงาน</span>
+          </div>
+
+          <div class="card-body">
+            <div class="border-bottom py-2"><i class="bi bi-hash"></i> <strong>รหัสนักศึกษา:</strong> {{ tn.id }}</div>
+            <div class="border-bottom py-2"><i class="bi bi-person"></i> <strong>ชื่อ-นามสกุล:</strong> {{ tn.title_name }} {{ tn.Trainee_firstname }} {{ tn.Trainee_lastname }}</div>
+            <div class="border-bottom py-2"><i class="bi bi-mortarboard"></i> <strong>ระดับการศึกษา / สถาบัน:</strong> {{ tn.Trainee_degree }} / {{ tn.Trainee_school }}</div>
+            <div class="border-bottom py-2"><i class="bi bi-journal-bookmark"></i> <strong>สาขาวิชา:</strong> {{ tn.subject }}</div>
+            <div class="border-bottom py-2"><i class="bi bi-stars"></i> <strong>ทักษะ:</strong> {{ tn.subject_ability }}</div>
+            <div class="border-bottom py-2"><i class="bi bi-calendar-check"></i> <strong>เริ่มฝึก:</strong> {{ tn.Training_start }}</div>
+            <div class="border-bottom py-2"><i class="bi bi-calendar-x"></i> <strong>สิ้นสุด:</strong> {{ tn.Training_finish }}</div>
+            <div class="border-bottom py-2"><i class="bi bi-telephone"></i> <strong>เบอร์โทร:</strong> {{ tn.Training_phone }}</div>
+            <div class="border-bottom py-2"><i class="bi bi-person-badge"></i> <strong>อาจารย์นิเทศ:</strong> {{ tn.teacher_name }}</div>
+            <div class="border-bottom py-2"><i class="bi bi-telephone-forward"></i> <strong>เบอร์อาจารย์:</strong> {{ tn.phone_teacher }}</div>
+          </div>
+        </div>
+      </div>
+
+<div class="col-lg-4">
+  <div class="card shadow-sm mb-3 border-0">
+    <div class="card-body text-center">
+      <h6 class="card-title fw-bold text-secondary">
+        <i class="bi bi-person-square me-1"></i> รูปนักศึกษา
+      </h6>
+      <img src="{{ tn.photograph.url }}"
+           class="rounded-3 shadow border"
+           width="160"
+           height="auto"
+           alt="รูปนักศึกษา"
+           style="cursor: zoom-in; transition: transform 0.2s;"
+           title="คลิกเพื่อขยาย"
+           data-bs-toggle="modal"
+           data-bs-target="#imageModal"
+           onclick="showFullImage('{{ tn.photograph.url }}')"
+           onmouseover="this.style.transform='scale(1.03)'"
+           onmouseout="this.style.transform='scale(1)'">
+    </div>
+  </div>
+</div>
+
+    {% endfor %}
+  </div>
+
+  <!-- ปุ่ม -->
+  <div class="text-center mt-4">
+    <a href="javascript:history.back()" class="btn btn-secondary me-2">
+      <i class="bi bi-arrow-left-circle"></i> กลับ
+    </a>
+    <button onclick="window.print()" class="btn btn-primary">
+      <i class="bi bi-printer"></i> พิมพ์
+    </button>
+  </div>
+</section>
+
+<!-- Modal แสดงรูปขนาดใหญ่ -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      
+      <!-- Header -->
+      <div class="modal-header bg-light border-0 rounded-top-4 px-4">
+        <h5 class="modal-title text-dark" id="imageModalLabel">
+          <i class="bi bi-image"></i> แสดงรูปภาพ
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body text-center bg-white rounded-bottom-4 px-4 py-3">
+        <img id="modalImage" 
+             src="" 
+             class="img-fluid rounded-3 shadow-sm border" 
+             style="max-height: 75vh; object-fit: contain;">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+function showFullImage(imageUrl) {
+  const timestamp = new Date().getTime();
+  document.getElementById('modalImage').src = imageUrl + '?t=' + timestamp;
+}
+</script>
+
+
+
+{% endblock content %}

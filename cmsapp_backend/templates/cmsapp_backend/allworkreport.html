@@ -1,0 +1,66 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <span><i class="bi bi-list-check"></i> ผลงานนักศึกษาฝึกงาน</span>
+                    <span><i class="bx bx-trophy" style="color:gold;"></i> KPI &nbspใบงาน >= 30 ใบงาน </span>
+                    <span><i class="bx bx-trophy" style="color:gold;"></i> ใบงานที่ได้: {{totalworkshop}} ใบงาน </span>
+                </h5>
+                {% if user.profileuser.usergroup == "admin" %}
+                <a href="{% url 'ShowAllReportView_page' %}" class="btn btn-light btn-sm shadow-sm">
+                <i class="bi bi-people-fill"></i> ดูทั้งหมด
+                </a>
+                {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title d-none">ผลงานการปฏิบัติงานนักศึกษาฝึกงาน</h5> 
+                    <table class="table table-striped datatable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <i class="ri-calendar-line"></i> วันที่
+                                </th>
+                                <th>
+                                    <i class="ri-task-line"></i> รายการปฏิบัติงาน
+                                </th>
+                                <th>
+                                    <i class="ri-star-line"></i> คะแนนผลงาน
+                                </th>
+                                <th>
+                                    <i class="ri-user-line"></i> ผู้ปฏิบัติงาน
+                                <th>
+                                    <i class="ri-printer-line"></i>
+                                </th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for post in workview %}
+                            <tr>
+                                <td>{{ post.date }}</td>
+                                <td>
+                                    <a href="{% url 'workreportdetail_page' post.id %}">
+                                        {{ post.workitem }}
+                                    </a>
+                                </td>
+                                <td>{{ post.rating }}</td>
+                                <td>{{ post.usertrinee }}</td>
+                                <td><a href="{% url 'workreport_pdf' post.id %}" target="_blank"><i class="ri-printer-line"></i></a></td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

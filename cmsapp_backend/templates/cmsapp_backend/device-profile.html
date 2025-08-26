@@ -1,0 +1,64 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+
+  <header class="bg-primary text-white py-3 mb-4">
+    <div class="container">
+      <h4 class="mb-0"><i class="bi bi-pc-display"></i> รายการอุปกรณ์</h4>
+    </div>
+  </header>
+
+  <main class="container">
+    {% if user.is_authenticated %}
+      <div class="row g-4">
+        {% for ca in CA %}
+          <div class="col-lg-6">
+            <div class="card device-card">
+              <div class="card-header card-header-custom">
+                {{ ca.combranding }} {{ ca.commodel }}
+              </div>
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-md-5 d-flex align-items-center justify-content-center">
+                    {% if ca.comphoto %}
+                      <img src="{{ ca.comphoto.url }}" alt="รูปอุปกรณ์" class="img-fluid rounded">
+                    {% else %}
+                      <img src="{% static 'img/default-device.png' %}" alt="ไม่มีภาพ" class="img-fluid rounded">
+                    {% endif %}
+                  </div>
+                  <div class="col-md-7">
+                    <p><strong>วันที่รับอุปกรณ์:</strong> {{ ca.date }}</p>
+                    <p><strong>เลขครุภัณฑ์:</strong> {{ ca.deviceID }}</p>
+                    <p><strong>ประเภท:</strong> {{ ca.comtype }}</p>
+                    <p><strong>Serial Number:</strong> {{ ca.comserailnumber }}</p>
+                    <p><strong>ตัวแทนจำหน่าย:</strong> {{ ca.comldealer }}</p>
+                    <p><strong>รหัสโครงการ:</strong> {{ ca.projectnumber }}</p>
+                    
+                    <div class="mt-3">
+                      {% if ca.comstatus_id == 2 %}
+                        <span class="badge bg-info"><i class="bi bi-tools"></i> กำลังซ่อม</span>
+                      {% elif ca.comstatus_id == 3 %}
+                        <span class="badge bg-warning text-dark"><i class="bi bi-cpu"></i> กำลังเปลี่ยนอะไหล่</span>
+                      {% else %}
+                        <a href="{% url 'add_repairing_page' ca.id %}" target="_blank" class="btn btn-outline-warning w-100">
+                          <i class="bi bi-wrench-adjustable-circle"></i> แจ้งซ่อม
+                        </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-warning">กรุณาเข้าสู่ระบบเพื่อดูข้อมูลอุปกรณ์</div>
+    {% endif %}
+  </main>
+
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+
+
+{% endblock content %}

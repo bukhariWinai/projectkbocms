@@ -1,0 +1,82 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        
+                        <p>
+                        </p>
+                       
+                    </h5>
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    วันที่แจ้ง
+                                </th>
+                                <th>
+                                    อาการเสีย
+                                </th>
+                                <th>
+                                    รายการอะไหล่
+                                </th>
+                                <th>
+                                    รายละเอียดคุณลักษณะ
+                                </th>
+                                <th>
+                                    ราคา
+                                </th>
+                                <th>
+                                    #
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rp in showdeviceRepaired %}
+                            <tr>
+                                <td>
+                                    {{rp.datestart}}
+                                </td>
+                                <td>
+                                    {{rp.repaircase}}
+                                </td>
+                                <td>
+                                    {% if rp.part_cat_change   %}
+                                    {{rp.part_cat_change }}
+                                    {% else %}
+                                    -
+                                    {% endif %}
+                                </td><td>
+                                   {% if rp.part_sub_change   %}
+                                    {{rp.part_sub_change }}
+                                    {% else %}
+                                    -
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{rp.budget}}
+                                </td>
+                                <td>
+                                    {% if rp.repairstatus_id == 3   %}
+                                    <a href="{% url 'repairreport_page' rp.id %}">
+                                        <i class="ri-bill-line" style="font-size:24px;">
+                                        </i>
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

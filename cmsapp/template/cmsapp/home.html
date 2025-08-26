@@ -1,0 +1,576 @@
+{% extends 'cmsapp/base.html' %}
+{% load custom_tags %}
+{% load static %}
+{% block content %}
+
+
+	<!-- ======= Hero Section ======= -->
+	<section id="hero" class="hero">
+		<div class="container position-relative">
+			<div class="row gy-5" data-aos="fade-in">
+				<div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center text-center text-lg-start">
+					<h2><span>{{title }}</span></h2>
+					<p>{{motto}}</p>
+					<div class="d-flex justify-content-center justify-content-lg-start">
+						<a href="#about" class="btn-get-started">แนะนำ สสจ.กระบี่</a>
+						<a href="{{youtube}}" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>วิดีทัศน์</span></a>
+					</div>
+				</div>
+				<!--{% static 'assets/img/hero-img.svg' %}-->
+				<div class="col-lg-6 order-1 order-lg-2">
+					<img src="{% for pthd in pt%} {{pthd.photoheader.url}} {% endfor %}" 
+					class="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="100" loading="lazy">
+				</div>
+			</div>
+		</div>
+
+
+
+ <!-- ======= Portfolio Details Section ======= -->
+		<section id="portfolio-details" class="portfolio-details">
+			<div class="container" data-aos="fade-up">
+
+				<div class="position-relative h-100">
+					<div class="slides-1 portfolio-details-slider swiper">
+						<div class="swiper-wrapper align-items-center">
+
+							{% for ic in icon %}
+							<div class="swiper-slide">
+								
+								<img src="{{ic.icon.url}}" alt="{{ic.link}}" width="250" height="350" loading="lazy">
+								
+							</div>
+							{% endfor %}
+
+						</div>
+						<div class="swiper-pagination"></div>
+					</div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-button-next"></div>
+
+				</div>
+
+			</div>
+		</section><!-- End Portfolio Details Section -->
+
+
+
+
+		<div class="icon-boxes position-relative">
+			<div class="container position-relative">
+				<div class="row gy-4 mt-5">
+
+					<div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+						<div class="icon-box">
+							<div class="icon"><i class="fa-solid fa-spa"></i></div>
+							<h6 class="title"><a href="{{'postdetails/2/'}}" class="stretched-link">คลินิกไทยสับปายะ</a></h6>
+						</div>
+					</div><!--End Icon Box -->
+
+					<div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+						<div class="icon-box">
+							<div class="icon"><i class="fa-solid fa-tooth"></i></div>
+							<h4 class="title"><a href="{{'postdetails/4/'}}" class="stretched-link">คลินิกทันตกรรม</a></h4>
+						</div>
+					</div><!--End Icon Box -->
+
+					<div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+						<div class="icon-box">
+							<div class="icon"><i class="fa-solid fa-pills"></i></div>
+							<h4 class="title"><a href="{{'postdetails/5/'}}" class="stretched-link">ศูนย์บริการผลิตภัณฑ์สุขภาพเบ็ดเสร็จ</a></h4>
+						</div>
+					</div><!--End Icon Box -->
+
+					<div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="500">
+						<div class="icon-box">
+							<div class="icon"><i class="fa-solid fa-cannabis"></i></div>
+							<h4 class="title"><a href="{{'postdetails/3/'}}" class="stretched-link">กัญชา สปา นวด</a></h4>
+						</div>
+					</div><!--End Icon Box -->
+
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+	<!-- End Hero Section -->
+
+	<main id="main">
+
+
+			 <!-- ======= Recent Blog Posts Section ======= -->
+		<section id="recent-posts" class="recent-posts sections-bg">
+			<div class="container" data-aos="fade-up">
+
+				<div class="section-header">
+					<h2><i class="fa-regular fa-newspaper">&nbsp</i> ข่าว@สสจ.กระบี่ </h2>
+					<p>ข่าวกิจกรรมคณะผู้บริหาร สำนักงานสาธารณสุขจังหวัดกระบี่</p>
+				</div>
+
+				<div class="row gy-4">
+
+
+					{% for news in All_news %}
+					<div class="col-xl-4 col-md-6">
+						<article>
+
+							<div class="post-img">
+								<img src="{{news.title_photo.url}}" alt="" class="img-fluid" loading="lazy">
+							</div>
+
+							<p class="post-category">{{news.category}}</p>
+
+							<h4 class="title">
+								<!-- 
+								<a href="{{  news.get_absolute_url }} ">{{news.title}}</a>-->
+							 <a href="{% url 'newsdetails_page' news.id %} ">{{news.title}}</a> 
+
+							</h4>
+
+							<div class="d-flex align-items-center">
+								<img src="{{news.reporter.photo.url}}" alt="" class="img-fluid post-author-img flex-shrink-0">
+								<div class="post-meta">
+									<p class="post-author">{{news.reporter}}</p>
+									<p class="post-date">
+									<time datetime="2022-01-01">{{news.date}}</time>
+									</p>
+								</div>
+							</div>
+
+						</article>
+					</div>
+					{% endfor %}
+
+
+					<!-- End post list item -->
+				</div><!-- End recent posts list -->
+
+			</div>
+		</section><!-- End Recent Blog Posts Section -->
+
+		 <!-- ======= Portfolio Section ======= -->
+		<section id="news" class="portfolio sections-bg">
+			<div class="container" data-aos="fade-up">
+
+				<div class="section-header">
+					<h2> <i class="fa-regular fa-newspaper">&nbsp</i>ข่าวทั่วไป</h2>
+					<p>"เริ่มคิดและลงมือทำ เพื่อให้ฝัน เป็นจริง"</p>
+				</div>
+
+				<div class="portfolio-isotope" data-portfolio-filter="*" data-portfolio-layout="masonry" data-portfolio-sort="original-order" data-aos="fade-up" data-aos-delay="100">
+
+					<div>
+						<ul class="portfolio-flters">
+							<li data-filter="*" class="filter-active"><h4><i class="fa-regular fa-newspaper">&nbsp</i>ข่าวล่าสุด</h4></li>
+							<li data-filter=".filter-sections"><h4><i class="fa-regular fa-newspaper">&nbsp</i>กลุ่มงาน</h4></li>
+							<li data-filter=".filter-promote"><h4><i class="fa-regular fa-newspaper">&nbsp</i>ประชาสัมพันธ์</h4></li>
+							
+						</ul><!-- End Portfolio Filters -->
+					</div>
+
+					<div class="row gy-4 portfolio-container">
+						{% for ns1 in newssec1 %}
+						<div class="col-xl-4 col-md-6 portfolio-item filter-active">
+							<div class="portfolio-wrap">
+								<a href="{{ ns1.title_photo.url }} " data-gallery="portfolio-gallery-app" class="glightbox"><img src="{{ns1.title_photo.url}}" class="img-fluid" alt="cccc"></a>
+								<div class="portfolio-info">
+									<h4>
+									<!--	
+										<a href="{{ns1.get_absolute_url}}" title="More Details">{{ns1.title | safe }}
+										</a>
+									-->
+										<a href="{% url 'newsdetails_page' ns1.id %} " title="More Details">{{ns1.title}}</a>
+
+									</h4>
+									<p>
+										<a href="{% url 'newsdetails_page' ns1.id %}">{{ns1.post | safe | linebreaks | truncatechars_html:200  }}</a>
+
+									</p>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+						<!-- End Portfolio Item -->
+						{% for ns in newssec2 %}
+						<div class="col-xl-4 col-md-6 portfolio-item filter-sections">
+							<div class="portfolio-wrap">
+								<a href="{{ ns.title_photo.url }}" data-gallery="portfolio-gallery-app" class="glightbox"><img src="{{ ns.title_photo.url }}" class="img-fluid" alt="" loading="lazy"></a>
+								<div class="portfolio-info" >
+									<h4>
+										<!--
+										<a href="{{ns.get_absolute_url}}" title="More Details">{{ns.title | safe }}</a>
+										-->
+										<a href="{% url 'newsdetails_page' ns.id %} ">{{ns.title}}</a>
+									</h4>
+									<p>
+										<a href="{% url 'newsdetails_page' ns.id %} ">{{ns.post | safe | linebreaks | truncatechars_html:200 }}</a>
+										<!--
+										<a href="{{ns.get_absolute_url}}">{{ns.post | safe | linebreaks | truncatechars_html:200 }}
+										-->
+									</p>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+						<!-- End Portfolio Item -->
+						{% for ns in newssec3 %}
+						<div class="col-xl-4 col-md-6 portfolio-item filter-promote">
+							<div class="portfolio-wrap">
+								<a href="{{ ns.title_photo.url }}" data-gallery="portfolio-gallery-app" class="glightbox"><img src="{{ ns.title_photo.url }}" class="img-fluid" alt="" loading="lazy"></a>
+								<div class="portfolio-info">
+									<h4>
+										<a href="{% url 'newsdetails_page' ns.id %} ">{{ns.title }}</a>>
+									</h4>
+									<p>
+										<a href="{% url 'newsdetails_page' ns.id %} ">{{ns.post | safe | linebreaks | truncatechars_html:200 }}</a>
+									</p>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+						<!-- End Portfolio Item -->
+
+						
+
+
+					</div><!-- End Portfolio Container -->
+
+				</div>
+
+			</div>
+		</section><!-- End Portfolio Section -->
+
+
+		<!-- ======= About Us บทความสุขภาพ Section ======= -->
+		<section id="about" class="about">
+			<div class="container" data-aos="fade-up">
+
+				<div class="section-header">
+					<h2><i class="fa-regular fa-newspaper">&nbsp</i>บทความสุขภาพ</h2>
+					<p>"สุขภาพดี สร้างได้ด้วยตัวเรา"</p>
+				</div>
+
+				<div class="row gy-4">
+					<div class="col-lg-12">
+						{% for i in health_artical %}
+						<a href="#"><h3>{{i.title}}</h3></a>
+						
+						<img src="{{i.title_photo.url}}" class="img-fluid rounded-4 mb-4" height="350" width="250" loading="lazy">
+						<p><a href="#"> {{i.post | safe}}</a> </p>
+						
+					</div>
+
+					{% endfor %}
+						
+							<div class="position-relative mt-4">
+								{% for u in aboutus %}
+								
+							 <img src="{{u.photo1au.url}}" class="img-fluid rounded-4" alt="" loading="lazy">
+								<a href="{{u.link_Utube}}" class="glightbox play-btn"></a>
+								{% endfor %}
+							</div>
+						
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</section><!-- End About Us Section -->
+
+		<!-- ======= Clients icon ads Section ======= -->
+		<section id="clients" class="clients">
+			<div class="container" data-aos="zoom-out">
+
+				<div class="clients-slider swiper">
+					<div class="swiper-wrapper align-items-center">
+						{% for ic in icon %}
+						<div class="swiper-slide"><img src="{{ic.icon.url}} " class="img-fluid" alt="{{ic.link}}" loading="lazy" ></div>
+						
+						{% endfor %}
+						
+					</div>
+				</div>
+
+			</div>
+		</section><!-- End Clients icon ads Section -->
+
+		<!-- ======= Stats Counter Section ======= -->
+		<section id="stats-counter" class="stats-counter">
+			<div class="container" data-aos="fade-up">
+
+				<div class="row gy-4 align-items-center">
+
+					<div class="col-lg-6">
+						<p><strong>ลิงค์หน่วยงานสำคัญ</strong> </p>
+
+						<!--  Stats Item -->
+						{% for link1 in linkext1 %}
+
+						
+						<div class="d-flex text-muted pt-3">
+							<img src="{{ link1.icon.url}}" class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" loading="lazy">
+							
+
+							<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+								<div class="d-flex justify-content-between">
+									<h6 class="text-gray-dark"><a href="{{link1.linkurl}}">{{link1.text}}</a></h6>
+									
+								</div>
+								<span class="d-block"><h6><a href="{{link1.facebook}}"><i class="bi bi-facebook"></i>&nbsp{{link1.facebook}}</a></h6></span>
+							</div>
+						</div>	
+
+						{% endfor %}
+
+						
+
+					 
+					</div>
+
+					<div class="col-lg-6">
+
+						<p><strong>ลิงค์หน่วยงานสำคัญ</strong> </p>
+
+						<!--  Stats Item -->
+						{% for link2 in linkext2 %}
+
+						
+						<div class="d-flex text-muted pt-3">
+							<img src="{{ link2.icon.url}}" class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" loading="lazy">
+							
+
+							<div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+								<div class="d-flex justify-content-between">
+									<h6 class="text-gray-dark"><a href="{{link2.linkurl}}">{{link2.text}}</a></h6>
+									
+								</div>
+								<span class="d-block"><h6><a href="{{link2.facebook}}"><i class="bi bi-facebook"></i>&nbsp{{link2.facebook}}</a></h6></span>
+							</div>
+						</div>	
+
+						{% endfor %}
+
+
+					
+						
+					</div>
+
+				</div>
+
+			</div>
+		</section><!-- End Stats Counter Section -->
+
+		<!-- ======= Call To Action Section ======= -->
+			 
+
+	 <!-- End Call To Action Section -->
+
+		<!-- ======= Our Services Section ======= -->
+		<section id="services" class="services sections-bg">
+			<div class="container" data-aos="fade-up">
+
+				<div class="section-header">
+					<h2><i class="fa-solid fa-spa">&nbsp</i>บริการ สสจ.กระบี่</h2>
+					<p>"ความสำเร็จ ไม่ได้มีไว้สำหรับ คนที่ เดินเร็ว เสมอไป แต่มีไว้สำหรับคนที่ ไม่หยุดเดิน"</p>
+				</div>
+
+				<div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+
+						
+						<!--start Service Item -->
+						{% for sv in os %}
+					
+					 <div class="col-xl-4 col-md-6">
+						<article>
+
+							<div class="post-img">
+								<img src="{{sv.image1.url}}" alt="" class="img-fluid">
+							</div>
+
+							<p class="post-category">{{sv.section}}</p>
+
+							<h4 class="title">
+								<a href="{% url 'postdetails_page' sv.id %} ">{{sv.title}}</a>
+							</h4>
+
+							<div class="d-flex align-items-center">
+								<img src=" " alt="" class="img-fluid post-author-img flex-shrink-0" loading="lazy">
+								<div class="post-meta" >
+									<p class="post-author">{{sv.msg}}</p>
+									
+								</div>
+							</div>
+
+						</article>
+					</div>
+					<!-- End Service Item -->
+						{% endfor %}
+
+				</div>
+
+			</div>
+		</section><!-- End Our Services Section -->
+
+		<!-- ======= Testimonials Section ======= -->
+		<section id="testimonials" class="testimonials">
+			<div class="container" data-aos="fade-up">
+
+				<div class="section-header">
+					<h2><i class="fa-solid fa-certificate">&nbsp</i>เรื่องเด่น สสจ.กระบี่</h2>
+					<p>ทำงานมากขึ้น ก็ได้เรียนรู้มากขึ้น เช่นกัน</p>
+				</div>
+
+				<div class="slides-3 swiper" data-aos="fade-up" data-aos-delay="100">
+					<div class="swiper-wrapper">
+
+						{% for tp in trophy %}
+						<div class="swiper-slide">
+							<div class="testimonial-wrap">
+								<div class="testimonial-item">
+									<div class="d-flex align-items-center">
+										<img src="{{ tp.trophy.url }}" class="testimonial-img flex-shrink-0" alt="">
+										 
+										<div>
+											<h3>{{tp.nametrophy}}</h3>
+											<h4>{{tp.section}} &amp; {{tp.date}} </h4>
+											<div class="stars">
+												<i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+											</div>
+										</div>
+
+									</div>
+									<p>
+										<i class="bi bi-quote quote-icon-left"></i>
+										{{tp.msg}}
+										<i class="bi bi-quote quote-icon-right"></i>
+									</p>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+						<!-- End testimonial item -->
+
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+
+			</div>
+		</section><!-- End Testimonials Section -->
+
+
+		<!-- ======= Our Team Section ======= -->
+		<section id="team" class="team">
+			<div class="container" data-aos="fade-up">
+
+				<div class="section-header">
+					<h2><i class="fa-solid fa-user-tie">&nbsp</i>ผู้บริหาร สสจ.กระบี่</h2>
+					<p>“Education is the most powerful weapon which you can use to change the world.”</p>
+				</div>
+
+				<div class="row gy-4">
+					{% for d in dr %}
+					<div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+						
+						<div class="member ">
+							
+							<img src="{{d.photo_doc.url}}" class="img-fluid mb-2" alt="">
+
+							<h6 class="mb-2">{{d.name}} &nbsp {{d.lastname}}</h6>
+							<h6>{{d.scholarposition}}</h6>
+							
+							
+
+							<div class="social">
+								<a href=""><i class="bi bi-twitter"></i></a>
+								<a href=""><i class="bi bi-facebook"></i></a>
+								<a href=""><i class="bi bi-instagram"></i></a>
+								<a href=""><i class="bi bi-linkedin"></i></a>
+							</div>
+							
+						</div>
+
+					</div>
+					{% endfor %}
+					<!-- End Team Member -->
+
+				</div>
+
+			</div>
+		</section><!-- End Our Team Section -->
+
+		<!-- ======= Pricing Section ======= -->
+		<!-- End Pricing Section -->
+
+		<!-- ======= Frequently Asked Questions Section ======= -->
+	 <!-- End Frequently Asked Questions Section -->
+
+ 
+
+		<!-- ======= Contact Section ======= -->
+		<section id="contact" class="contact">
+			<div class="container" data-aos="fade-up">
+
+				<div class="section-header">
+					<h2><i class="fa-solid fa-address-book">&nbsp </i>ติดต่อราชการ</h2>
+					<p>วันจันทร์-วันศุกร์ เวลา 08.30 น.-16.30 น. </p>
+				</div>
+
+				<div class="row gx-lg-0 gy-4">
+
+					<div class="col-lg-4">
+
+						<div class="info-container d-flex flex-column align-items-center justify-content-center">
+							<div class="info-item d-flex">
+								<i class="bi bi-geo-alt flex-shrink-0"></i>
+								<div>
+									<h4>ที่อยู่:</h4>
+									<p>สำนักงานสาธารณสุขจังหวัดกระบี่ 112 ต.ปากน้ำ อ.เมือง จ.กระบี่ 81000</p>
+								</div>
+							</div><!-- End Info Item -->
+
+							<div class="info-item d-flex">
+								<i class="bi bi-envelope flex-shrink-0"></i>
+								<div>
+									<h4>Email:</h4>
+									<p>contactkbpho@mophepg.moph.go.th</p>
+								</div>
+							</div><!-- End Info Item -->
+
+							<div class="info-item d-flex">
+								<i class="bi bi-phone flex-shrink-0"></i>
+								<div>
+									<h4>โทรศัพท์:</h4>
+									<p>075 611 012</p>
+								</div>
+							</div><!-- End Info Item -->
+
+							<div class="info-item d-flex">
+								<i class="bi bi-clock flex-shrink-0"></i>
+								<div>
+									<h4>เวลาทำการ:</h4>
+									<p>จันทร์-ศุกร์ 8.30AM - 16.30PM</p>
+								</div>
+							</div><!-- End Info Item -->
+						</div>
+
+					</div>
+
+					<div class="col-lg-8">
+					 
+							<div class="info-container d-flex flex-column align-items-center justify-content-center ">
+								<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.4309647001423!2d98.91584247351767!3d8.05744610344278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x305196ffffffffff%3A0x3c70cbbd39917e66!2z4Liq4Liz4LiZ4Lix4LiB4LiH4Liy4LiZ4Liq4Liy4LiY4Liy4Lij4LiT4Liq4Li44LiC4LiI4Lix4LiH4Lir4Lin4Lix4LiU4LiB4Lij4Liw4Lia4Li14LmI!5e0!3m2!1sth!2sth!4v1725257695390!5m2!1sth!2sth" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+								
+						</div>
+					</div><!-- End Contact Form -->
+
+				</div>
+
+			</div>
+		</section><!-- End Contact Section -->
+
+	</main><!-- End #main -->
+
+	<!-- ======= Footer ======= -->
+
+
+{% endblock content %}

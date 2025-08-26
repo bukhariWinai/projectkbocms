@@ -1,0 +1,77 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ forminsert.media }}
+
+<section class="section">
+  <div class="row">
+
+    <!-- Left: Internship Work Form -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-person-lines-fill"></i> บันทึกการปฏิบัติงานนักศึกษาฝึกงาน</span>
+        </div>
+        <div class="card-body">
+          <form class="form-control" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ forminsert.media }}
+
+            <table class="table">
+              {{ forminsert.as_table }}
+            </table>
+
+            <div class="d-flex justify-content-end mt-3">
+              <button type="submit" class="btn btn-warning">
+                <i class="ri-file-edit-line"></i> บันทึกข้อมูล
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Internship Work Summary -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+          <span><i class="ri-bar-chart-2-line"></i> ผลการปฏิบัติงานนักศึกษาฝึกงาน</span>
+        </div>
+        <div class="card-body">
+          <!-- Table with stripped rows -->
+          <table class="table table-striped datatable">
+            <thead>
+              <tr>
+                <th><i class="ri-calendar-line"></i> วันที่</th>
+                <th><i class="ri-task-line"></i> รายการปฏิบัติงาน</th>
+                <th><i class="ri-star-line"></i> คะแนนผลงาน</th>
+                <th><i class="ri-user-line"></i> ผู้ปฏิบัติงาน</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for post in workview %}
+              <tr>
+                <td>{{ post.date }}</td>
+                <td>
+                  <a href="{% url 'workreportdetail_page' post.id %}">
+                    {{ post.workitem }}
+                  </a>
+                </td>
+                <td>{{ post.rating }}</td>
+                <td>{{ post.usertrinee }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <!-- End Table -->
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+
+{% endblock content %} 

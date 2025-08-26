@@ -1,0 +1,5 @@
+SELECT cmsapp_repairstatus.status,
+cmsapp_computeraccessory.deviceID
+FROM cmsapp_repairstatus
+INNER JOIN cmsapp_computeraccessory
+ON  cmsapp_computeraccessory.comstatus_id = cmsapp_repairstatus.id

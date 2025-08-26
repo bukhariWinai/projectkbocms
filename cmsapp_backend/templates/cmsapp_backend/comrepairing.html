@@ -1,0 +1,94 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ form.media }}
+
+<!-- Header -->
+<header class="bg-primary text-white py-4 mb-4 shadow">
+  <div class="container">
+    <h4 class="h4 mb-0"><i class="bi bi-tools"></i> ระบบแจ้งซ่อมครุภัณฑ์คอมพิวเตอร์</h4>
+  </div>
+</header>
+
+
+<section class="section py-4">
+  <div class="container">
+    <div class="row g-4">
+      <!-- ด้านซ้าย: ข้อมูลอุปกรณ์ -->
+      <div class="col-lg-6">
+        <div class="card shadow rounded-4">
+          <div class="card-body">
+            <h5 class="card-title mb-4 text-primary"><i class="bi bi-laptop"></i> แจ้งซ่อมครุภัณฑ์คอมพิวเตอร์</h5>
+            <div class="text-center mb-3">
+              {% if repairItem.comphoto %}
+                <img src="{{ repairItem.comphoto.url }}" class="img-fluid rounded" style="max-height: 200px;">
+              {% else %}
+                <img src="{% static 'img/default-device.png' %}" class="img-fluid rounded" style="max-height: 200px;">
+              {% endif %}
+            </div>
+
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <th>รหัสพัสดุ</th><td>{{ repairItem.deviceID }}</td>
+                </tr>
+                <tr>
+                  <th>SN</th><td>{{ repairItem.comserailnumber }}</td>
+                </tr>
+                <tr>
+                  <th>ประเภท</th><td>{{ repairItem.comtype }}</td>
+                </tr>
+                <tr>
+                  <th>ยี่ห้อ</th><td>{{ repairItem.combranding }}</td>
+                </tr>
+                <tr>
+                  <th>รุ่น</th><td>{{ repairItem.commodel }}</td>
+                </tr>
+                <tr>
+                  <th>ผู้จำหน่าย</th><td>{{ repairItem.comldealer }}</td>
+                </tr>
+                <tr>
+                  <th>วันที่รับ</th><td>{{ repairItem.comdateregister }}</td>
+                </tr>
+                <tr>
+                  <th>ผู้ใช้งาน</th><td>{{ repairItem.owner }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ด้านขวา: ฟอร์มแจ้งซ่อม -->
+      <div class="col-lg-6">
+        <div class="card shadow rounded-4">
+          <div class="card-body">
+            <h5 class="card-title mb-4 text-primary"><i class="bi bi-tools"></i> แบบฟอร์มแจ้งซ่อม</h5>
+
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} text-center">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+
+            <form action="" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="mb-3">
+                {{ formRepair.as_p }}
+              </div>
+              <div class="text-end">
+                <button type="submit" class="btn btn-warning">
+                  <i class="bi bi-tools"></i> แจ้งซ่อม
+                </button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock content %}

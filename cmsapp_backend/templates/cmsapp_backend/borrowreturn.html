@@ -1,0 +1,115 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ form.media }}
+
+
+  <section class="section">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            <i class="ri-computer-line me-2 text-primary"></i>บันทึกการยืมครุภัณฑ์คอมพิวเตอร์
+          </h5>
+          <div class="container">
+            <!-- Default Table -->
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    <i class="ri-calendar-line text-info me-2"></i>วันที่ขอยืม:
+                  </th>
+                  <td>{{ borrowitem.datestart }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <i class="ri-cpu-line text-success me-2"></i>ประเภทอุปกรณ์:
+                  </th>
+                  <td>{{ borrowitem.comtype }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <i class="ri-barcode-line text-primary me-2"></i>รหัสครุภัณฑ์:
+                  </th>
+                  <td>{{ borrowitem.deviceID }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <i class="ri-building-line text-warning me-2"></i>ยี่ห้อ:
+                  </th>
+                  <td>{{ borrowitem.deviceBrand }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <i class="ri-lightbulb-line text-secondary me-2"></i>จุดประสงค์การใช้งาน:
+                  </th>
+                  <td>{{ borrowitem.remark }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <i class="ri-refresh-line text-danger me-2"></i>การส่งคืน:
+                  </th>
+                  <td>
+                    {% if borrowitem.returnBack == True %}
+                      <p>คืนแล้ว</p>
+                    {% else %}
+                      <p>กำลังใช้งาน</p>
+                    {% endif %}
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <i class="ri-calendar-check-line text-info me-2"></i>วันที่คืน:
+                  </th>
+                  <td>{{ borrowitem.datefinish }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <i class="ri-user-line text-secondary me-2"></i>ผู้ยืม:
+                  </th>
+                  <td>{{ borrowitem.user_borrow }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title text-primary mb-4">
+        <i class="ri-calendar-check-line me-2"></i>ลงบันทึกวันคืน
+      </h5>
+      <form class="form-control" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert text-center mt-5 alert-{{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+
+        <table>
+          {{ EditBorrowReturnItem.as_table }}
+        </table>
+        <br>
+        <div class="row col-lg-8" style="text-align: right;">
+          <div class="col-lg-8">
+            <button type="submit" class="btn btn-warning">
+              <i class="ri-tools-fill"></i>&nbsp บันทึกการยืม
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  </div>
+</section>
+
+
+{% endblock content %}

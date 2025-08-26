@@ -1,0 +1,136 @@
+{% with current_url=request.resolver_match.url_name %}
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <!-- Dashboard -->
+      <li class="nav-item {% if current_url == 'home' %}active{% endif %}">
+        <a class="nav-link {% if current_url != 'home' %}collapsed{% endif %}" href="{% url 'home' %}">
+          <i class="bi bi-speedometer2"></i>
+          <span>แดชบอร์ด</span>
+        </a>
+      </li>
+
+      <!-- แรงงานต่างด้าว -->
+      {% with worker_urls='showWorker addWorker workerDetail editWorker' %}
+        <li class="nav-item {% if current_url in worker_urls.split %}active{% endif %}">
+          <a class="nav-link {% if current_url not in worker_urls.split %}collapsed{% endif %}" data-bs-toggle="collapse" href="#worker-nav">
+            <i class="bi bi-people-fill"></i>
+            <span>แรงงานต่างด้าว</span>
+            <i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="worker-nav" class="nav-content collapse {% if current_url in worker_urls.split %}show{% endif %}" data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="{% url 'showWorker' %}"><i class="bi bi-circle"></i> รายการแรงงานต่างด้าว</a>
+            </li>
+            <li>
+              <a href="{% url 'addWorker' %}"><i class="bi bi-circle"></i> เพิ่มแรงงานต่างด้าว</a>
+            </li>
+          </ul>
+        </li>
+      {% endwith %}
+
+      <!-- ผู้ติดตาม -->
+      {% with follower_urls='showFollower addFollower folloertDetail  editFollower' %}
+        <li class="nav-item {% if current_url in follower_urls.split %}active{% endif %}">
+          <a class="nav-link {% if current_url not in follower_urls.split %}collapsed{% endif %}" data-bs-toggle="collapse" href="#follower-nav">
+            <i class="bi bi-person-lines-fill"></i>
+            <span>ผู้ติดตาม</span>
+            <i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="follower-nav" class="nav-content collapse {% if current_url in follower_urls.split %}show{% endif %}" data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="{% url 'showFollower' %}"><i class="bi bi-circle"></i> รายการผู้ติดตาม</a>
+            </li>
+            <li>
+              <a href="{% url 'addFollower' %}"><i class="bi bi-circle"></i> เพิ่มผู้ติดตาม</a>
+            </li>
+          </ul>
+        </li>
+      {% endwith %}
+
+      <!-- สัญชาติ -->
+      {% with nation_urls='showNationality addNationality editNationality' %}
+        <li class="nav-item {% if current_url in nation_urls.split %}active{% endif %}">
+          <a class="nav-link {% if current_url not in nation_urls.split %}collapsed{% endif %}" data-bs-toggle="collapse" href="#nation-nav">
+            <i class="bi bi-flag-fill"></i>
+            <span>สัญชาติ</span>
+            <i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="nation-nav" class="nav-content collapse {% if current_url in nation_urls.split %}show{% endif %}" data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="{% url 'showNationality' %}"><i class="bi bi-circle"></i> รายการสัญชาติ</a>
+            </li>
+            <li>
+              <a href="{% url 'addNationality' %}"><i class="bi bi-circle"></i> เพิ่มสัญชาติ</a>
+            </li>
+          </ul>
+        </li>
+      {% endwith %}
+
+      <!-- สิทธิทะเบียนประกันสุขภาพ -->
+      {% with health_urls='showHealth addHealth editHealth' %}
+        <li class="nav-item {% if current_url in health_urls.split %}active{% endif %}">
+          <a class="nav-link {% if current_url not in health_urls.split %}collapsed{% endif %}" data-bs-toggle="collapse" href="#health-nav">
+            <i class="bi bi-file-medical"></i>
+            <span>ทะเบียนประกันสุขภาพ</span>
+            <i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="health-nav" class="nav-content collapse {% if current_url in health_urls.split %}show{% endif %}" data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="{% url 'showHealth' %}"><i class="bi bi-circle"></i> รายการทะเบียนประกันสุขภาพ</a>
+            </li>
+            <li>
+              <a href="{% url 'addHealth' %}"><i class="bi bi-circle"></i> เพิ่มทะเบียนประกันสุขภาพ</a>
+            </li>
+          </ul>
+        </li>
+      {% endwith %}
+
+      <!-- ประเภทโรค -->
+      {% with disease_urls='addDiseaseType showDiseaseType editDiseaseType showDisease addDisease editDisease' %}
+        <li class="nav-item {% if current_url in disease_urls.split %}active{% endif %}">
+          <a class="nav-link {% if current_url not in disease_urls.split %}collapsed{% endif %}" data-bs-toggle="collapse" href="#disease-nav">
+            <i class="bi bi-bug-fill"></i>
+            <span>ประเภทโรค</span>
+            <i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="disease-nav" class="nav-content collapse {% if current_url in disease_urls.split %}show{% endif %}" data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="{% url 'showDiseaseType' %}"><i class="bi bi-circle"></i> รายการประเภทโรค</a>
+            </li>
+            <li>
+              <a href="{% url 'addDiseaseType' %}"><i class="bi bi-circle"></i> เพิ่มประเภทโรค</a>
+            </li>
+            <li>
+              <a href="{% url 'showDisease' %}"><i class="bi bi-circle"></i> รายการโรค</a>
+            </li>
+            <li>
+              <a href="{% url 'addDisease' %}"><i class="bi bi-circle"></i> เพิ่มข้อมูลโรค</a>
+            </li>
+          </ul>
+        </li>
+      {% endwith %}
+
+      <!-- วินิจฉัย -->
+      {% with diagnosis_urls='addDiagnosis showDiagnosis editDiagnosis showReportDiagnosis' %}
+        <li class="nav-item {% if current_url in diagnosis_urls.split %}active{% endif %}">
+          <a class="nav-link {% if current_url not in diagnosis_urls.split %}collapsed{% endif %}" data-bs-toggle="collapse" href="#diagnosis-nav">
+            <i class="bi bi-clipboard2-pulse"></i>
+            <span>การวินิจฉัย</span>
+            <i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="diagnosis-nav" class="nav-content collapse {% if current_url in diagnosis_urls.split %}show{% endif %}" data-bs-parent="#sidebar-nav">
+            <li>
+              <a href="{% url 'addDiagnosis' %}"><i class="bi bi-circle"></i> เพิ่มการวินิจฉัย</a>
+            </li>
+            <li>
+              <a href="{% url 'showDiagnosis' %}"><i class="bi bi-circle"></i> รายการการวินิจฉัย</a>
+            </li>
+            <li>
+              <a href="{% url 'showReportDiagnosis' %}"><i class="bi bi-circle"></i> รายงานการวินิจฉัย</a>
+            </li>
+          </ul>
+        </li>
+      {% endwith %}
+    </ul>
+  </aside>
+{% endwith %}

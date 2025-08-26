@@ -1,0 +1,113 @@
+{% extends 'cmsapp/base.html' %}
+{% load static %}
+{% block content %}
+
+<main id="main">
+
+  <!-- ======= Breadcrumbs ======= -->
+  <div class="breadcrumbs">
+    <div class="page-header d-flex align-items-center" style="background-image: url('');">
+      <div class="container position-relative">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-6 text-center">
+            <h2>เอกสารการประชุม</h2>
+            <p>เอกสารการประชุม สำนักงานสาธารณสุขจังหวัดกระบี่</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav>
+      <div class="container">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'home_page' %}">Home</a></li>
+          <li class="breadcrumb-item active">เอกสารการประชุม</li>
+        </ol>
+      </div>
+    </nav>
+  </div><!-- End Breadcrumbs -->
+
+  <section id="conference" class="container my-4">
+
+    <div class="my-3 p-4 bg-white rounded shadow-lg">
+
+      <!-- Search Box -->
+      <div class="d-flex justify-content-end mb-3">
+        <form method="get" class="d-flex">
+          <input type="text" name="q" class="form-control me-2" placeholder="ค้นหาเอกสารการประชุม..." value="{{ q }}">
+          <button class="btn btn-outline-primary" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- Table -->
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th scope="col"><i class="bi bi-clock me-1"></i>วันที่</th>
+              <th scope="col"><i class="bi bi-card-text me-1"></i>เรื่องการประชุม</th>
+              <th scope="col"><i class="bi bi-person-fill me-1"></i>ผู้จัดประชุม/ผู้บันทึก</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in conf %}
+              <tr>
+                <td><small><i class="bi bi-clock me-1 text-primary"></i>{{ i.postdate|date:"d/m/Y H:i" }}</small></td>
+                <td>
+                  <a href="{% url 'confschedule_page' i.id %}" class="text-decoration-none">
+                    <i class="bi bi-file-earmark-text me-1 text-info"></i>{{ i.title }}
+                  </a>
+                </td>
+                <td><small><i class="bi bi-person-circle me-1 text-dark"></i>{{ i.user }}</small></td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="3" class="text-center text-muted">ไม่พบเอกสาร</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      {% if conf.has_other_pages %}
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          {% if conf.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ conf.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">«</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">«</span></li>
+          {% endif %}
+
+          {% for num in conf.paginator.page_range %}
+            {% if conf.number == num %}
+              <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ num }}{% if q %}&q={{ q }}{% endif %}">{{ num }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+          {% if conf.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ conf.next_page_number }}{% if q %}&q={{ q }}{% endif %}">»</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">»</span></li>
+          {% endif %}
+        </ul>
+      </nav>
+      {% endif %}
+
+    </div>
+  </section>
+
+</main>
+
+
+
+{% endblock content %}

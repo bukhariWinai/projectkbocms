@@ -1,0 +1,98 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ formRepairItem.media }}
+
+<section class="section">
+  <div class="row">
+
+    <!-- Left Column: Repair Details -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">รายละเอียดการแจ้งซ่อมครุภัณฑ์คอมพิวเตอร์</h5>
+          <table class="table">
+            <tbody>
+              <tr>
+                <th scope="row">วันที่แจ้งซ่อม :</th>
+                <td>{{ repairitem.datestart }}</td>
+              </tr>
+              <tr>
+                <th scope="row">ผู้แจ้งซ่อม :</th>
+                <td>{{ repairitem.owner }}&nbsp{{ repairitem.owner.sections }}</td>
+              </tr>
+              <tr>
+                <th scope="row">เลขครุภัณฑ์ :</th>
+                <td>{{ repairitem.deviceID }}</td>
+              </tr>
+              <tr>
+                <th scope="row">อาการแจ้งเสีย :</th>
+                <td>{{ repairitem.repaircase }}</td>
+              </tr>
+              <tr>
+                <th scope="row">วิธีการซ่อม :</th>
+                <td>{{ repairitem.repairmethod|safe }}</td>
+
+              </tr>
+           
+               <tr>
+                <th scope="row">สถานะปัจจุบัน :</th>
+                <td>{{ repairitem.repairstatus }}</td>
+              </tr>
+              <tr>
+                <th scope="row">ผู้ตรวจซ่อม :</th>
+                <td>{{ repairitem.engineering }}</td>
+              </tr>
+              <tr>
+                <th scope="row">ผู้รับงานซ่อม :</th>
+                <td>{{ repairitem.itsupport }}</td>
+              </tr>
+          
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Repair Form -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">แบบฟอร์มบันทึกการซ่อม</h5>
+
+          <!-- Form -->
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ formRepairItem.media }}
+
+            <!-- Alert Messages -->
+            {% if messages %}
+              {% for message in messages %}
+              <div class="alert text-center mt-3 alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+              {% endfor %}
+            {% endif %}
+
+            <!-- Form Fields -->
+            <table class="table">
+              {{ formRepairItem.as_table }}
+            </table>
+
+            <!-- Submit Button -->
+            <div class="d-flex justify-content-end mt-3">
+              <button type="submit" class="btn btn-warning">
+                <i class="ri ri-tools-fill"></i> บันทึกการซ่อม
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  
+
+{% endblock content %}

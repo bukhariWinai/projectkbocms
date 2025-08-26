@@ -1,0 +1,70 @@
+<!-- cmsapp_backend/workrating.html -->
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{Ratingform.media}} 
+
+{% if user.profileuser.usergroup == 'admin' %}
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+          <span><i class="ri-briefcase-4-line"></i> สรุปการปฏิบัติงานนักศึกษาฝึกงาน</span>
+        </div>
+        <div class="card-body">
+          <!-- ฟอร์มแสดงผลการประเมิน -->
+          <form class="form-control" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+              {{ Ratingform.as_table }}  <!-- แสดงฟอร์มแบบตาราง -->
+            </table>
+            <br> 
+            <div class="row col-lg-8" style="text-align: right;">
+              <div class="col-lg-6 ">
+                <button type="submit" class="btn btn-warning">
+                  <i class="ri ri-tools-fill"></i>บันทึกคะแนน
+                </button>
+              </div>
+            </div>
+          </form> 
+
+          <!-- ภาพประกอบ -->
+          {% if workview.workimage %}
+          <div class="mb-3">
+            <h6><i class="ri-image-line"></i> ภาพประกอบการปฏิบัติงาน</h6>
+            <hr>
+            <div class="d-flex flex-wrap gap-3">
+              {% for img in workview.workimage.all %}
+              <div>
+                <img src="{{ img.images.url }}"
+                     class="rounded shadow-sm"
+                     width="220px" height="200px"
+                     data-bs-toggle="modal"
+                     data-bs-target="#imageModal"
+                     onclick="showFullImage('{{ img.images.url }}')">
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+         
+          {% endif %}
+
+          <!-- ปุ่มย้อนกลับ และ พิมพ์ -->
+          <div class="mt-4 d-flex justify-content-between">
+            <a href="{% url 'ShowAllReportView_page' %}" class="btn btn-secondary">
+              <i class="ri-arrow-left-line"></i> ย้อนกลับ
+            </a>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endif %}
+
+
+{% endblock content %}

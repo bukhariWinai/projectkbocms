@@ -1,0 +1,43 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-info text-white">
+    <h5 class="mb-0"><i class="fa-solid fa-newspaper"></i> เพิ่มข่าวหน่วยงาน</h5>
+  </div>
+  <div class="card-body">
+
+    <form method="post" enctype="multipart/form-data" class="needs-validation">
+      {% csrf_token %}
+      {{ form.media }}
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert text-center mt-3 alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="table-responsive">
+        <table class="table table-borderless">
+          {{ form.as_table }}
+        </table>
+      </div>
+
+      <div class="text-end mt-3">
+        <button type="submit" class="btn btn-success">
+          <i class="fa-regular fa-floppy-disk"></i> เพิ่มข่าวกิจกรรม
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+
+
+
+
+ {% endblock content %}

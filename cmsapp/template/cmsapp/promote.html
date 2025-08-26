@@ -1,0 +1,135 @@
+{% extends 'cmsapp/base.html' %}
+{% load static %}
+{% block content %}
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="page-header d-flex align-items-center" style="background-image: url('');">
+        <div class="container position-relative">
+          <div class="row d-flex justify-content-center">
+            <div class="col-lg-6 text-center">
+              <h2></h2>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav>
+        <div class="container">
+          <ol>
+            <li><a href="{% url 'home_page'%}">Home</a></li>
+            <li>ข่าวประชาสัมพันธ์</li>
+          </ol>
+        </div>
+      </nav>
+    </div><!-- End Breadcrumbs -->
+
+    <!-- ======= Blog Details Section ======= -->
+    <section id="blog" class="blog">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row g-5">
+
+          <div class="col-lg-8">
+
+            {%  for n in newspromote %}
+
+            <article class="blog-details">
+
+              <div class="post-img">
+                <img src="{{n.title_photo.url}}" alt="" class="img-fluid">
+              </div>
+
+              <h2 class="title">{{n.title}}</h2>
+
+              <div class="meta-top">
+                <ul>
+                  <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="blog-details.html">{{n.reporter}}</a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="blog-details.html"><time datetime="2020-01-01">{{n.date}}</time></a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="blog-details.html">{{n.section}}</a></li>
+                </ul>
+              </div><!-- End meta top -->
+
+              <div class="content">
+                <p>
+                  {{n.post}}
+                </p>
+                
+                <img src="assets/img/blog/blog-inside-post.jpg" class="img-fluid" alt="">
+
+               
+               
+
+              </div><!-- End post content -->
+
+              <div class="meta-bottom">
+                <i class="bi bi-folder"></i>
+                <ul class="cats">
+                  <li><a href="#">Business</a></li>
+                </ul>
+
+                <i class="bi bi-tags"></i>
+                <ul class="tags">
+                  <li><a href="#">Creative</a></li>
+                  <li><a href="#">Tips</a></li>
+                  <li><a href="#">Marketing</a></li>
+                </ul>
+              </div><!-- End meta bottom -->
+
+            </article><!-- End blog post -->
+
+            {% endfor %}
+
+        
+
+
+          </div>
+
+          <div class="col-lg-4">
+
+            <div class="sidebar">
+
+              <div class="sidebar-item search-form">
+                <h3 class="sidebar-title">ค้นหาข่าว</h3>
+                <form action="" class="mt-3">
+                  <input type="text">
+                  <button type="submit"><i class="bi bi-search"></i></button>
+                </form>
+              </div><!-- End sidebar search formn-->
+
+              <div class="sidebar-item categories">
+                <h3 class="sidebar-title">หมวดหมู่</h3>
+                <ul class="mt-3">
+                  <li><a href="#">ข่าวกลุ่มงาน <span>(25)</span></a></li>
+                  <li><a href="#">ข่าวประชาสัมพันธ์ <span>(12)</span></a></li>
+                 
+                </ul>
+              </div><!-- End sidebar categories-->
+
+              <div class="sidebar-item recent-posts">
+                <h3 class="sidebar-title">ข่าวล่าสุด</h3>
+
+              </div><!-- End sidebar recent posts-->
+
+              <div class="sidebar-item tags">
+                <h3 class="sidebar-title">Tags</h3>
+                <ul class="mt-3">
+                  <li><a href="#">App</a></li>
+                  <li><a href="#">IT</a></li>
+                  
+                </ul>
+              </div><!-- End sidebar tags-->
+
+            </div><!-- End Blog Sidebar -->
+
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Blog Details Section -->
+
+  </main><!-- End #main -->
+
+ {% endblock content %}

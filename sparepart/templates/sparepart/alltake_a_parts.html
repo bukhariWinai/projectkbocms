@@ -1,0 +1,93 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ form.media }}
+<div class="row col-lg-12">
+    <h5>
+        <i class="ri-calendar-event-line">
+            โปรแกรมบันทึกรายการวัสดุคอมพิวเตอร์ 
+        </i>
+    </h5>
+    <ul class="nav">
+                 <li class="nav-item">
+            <a aria-current="page" class="nav-link active " href="{% url 'mainspareparts_page'%}">
+                วัสดุคงเหลือ
+            </a>
+        </li>
+        <li class="nav-item">
+            <a aria-current="page" class="nav-link active " href="{% url 'addpartstype_page'%}">
+                เพิ่มชนิดวัสดุคอมพิวเตอร์
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'addstockparts_page'%}">
+                เพิ่มรายการ stock วัสดุคอมพิวเตอร์
+            </a>
+        </li>
+
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'take_a_parts_page'%}">
+                บันทึกรายการเบิกวัสดุคอมพิวเตอร์
+            </a>
+        </li>
+     <li class="nav-item">
+            <a class="nav-link" href="{% url 'alltake_a_parts_page'%}">
+                รายการเบิกวัสดุคอมพิวเตอร์ทั้งหมด
+            </a>
+        </li>
+    </ul>
+<section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                           รายการเบิกวัสดุคอมพิวเตอร์
+                        </h5>
+    
+                       <table class="table table-hover datatable">
+                        
+                        <thead>
+                        <tr>
+                        <th>pk</th>
+                        <th>วันบันทึก</th>
+                        <th>รหัสการซ่อม</th>
+                        <th>รายละเอียด</th>
+                        <th>hw.s/n</th>
+                        <th>รหัสครุภัณฑ์</th>
+                        <th>ผู้เบิก</th>
+                        <th>ผู้บันทึก</th>
+                        <th>พิมพ์</th>
+                        </tr>
+                        </thead>
+                        {% for st in sp %}
+                        <tr>
+                            <td>{{st.id}}</td>
+                            <td>{{st.created_at}}</td>
+                            <td>{{st.repair_id}}</td>
+                            <td>{{st.part_id}}</td>
+                            <td>{{st.part_sn}}</td>
+                            <td>{{st.computer_id|truncatechars:22 }}</td>
+                            <td>{{st.user_order}}</td>
+                            <td>{{st.admin_recorder}}</td>
+                            <td><a href="{% url 'repair_order_pdf_page' pk=st.id %}"><i class="bi bi-printer" style="color: darkgray; font-size: 20px;"></i></a></td>
+                            <td></td>
+                           
+                        </tr>
+                        {% endfor %}                       
+                    </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+<br>
+ 
+   
+
+{% endblock content %}
+
+#summernote install dont forget
+</br>

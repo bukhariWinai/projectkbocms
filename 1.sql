@@ -1,0 +1,2 @@
+SELECT cmsapp_computeraccessory.deviceID
+FROM cmsapp_computeraccessory

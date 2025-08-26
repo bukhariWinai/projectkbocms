@@ -1,0 +1,10 @@
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dbkbocms',           # ต้องตรงกับ CREATE DATABASE
+        'USER': 'userkbocms',         # ต้องตรงกับ CREATE USER
+        'PASSWORD': 'kbocms@bukh14082568', # ต้องตรงกับ PASSWORD
+        'HOST': '172.17.25.212',      # หรือ IP ของ server
+        'PORT': '5432',           # default PostgreSQL port
+    }
+}

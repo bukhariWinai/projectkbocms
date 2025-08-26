@@ -1,0 +1,50 @@
+
+           <!-- start lastnew-->
+          <div class="col-lg-4">
+
+            <div class="sidebar">
+
+              <div class="sidebar-item search-form">
+                <h3 class="sidebar-title">ค้นหาข่าว</h3>
+                <form action="" class="mt-3">
+                  <input type="text">
+                  <button type="submit"><i class="bi bi-search"></i></button>
+                </form>
+
+                    <div>
+                        <hr>
+                        <div style="text-decoration-color: orangered;"><p>ข่าวสาสุด</p></div>
+                        <hr>
+                      {% for ln in lastnews %} 
+                        <div><p>{{ln.date}}</p></div>                       
+                        <div><p><a href="{{  ln.get_absolute_url }}">{{ln.title }}</a></p></div> 
+                        <hr>  
+                      {% endfor %}
+                        <div><p><a href="{% url 'news_page' %}">อ่านทั้งหมด...</a></p></div>
+                      
+                  </div>
+              </div><!-- End sidebar search formn-->
+
+              
+          </div>
+          <!--- end lastnews --->
+
+
+if request.method == 'POST':
+      
+    # create object of form
+      formRepair = AddRepairForm(request.POST or None, request.FILES or None)
+    
+    # check if form data is valid
+      if formRepair.is_valid():
+        #formRepair.instance.reporter = request.user.profileuser                
+        formRepair.save()
+        messages.success(request,"ถูกต้อง/บันทึกเรียบร้อยแล้ว ")
+        
+      else:
+        messages.warning(request,"พิมพ์อักษรผิด/ลองใหม่อีกครั้ง")
+        return render(request, "cmsapp_backend/comrepairing.html",{'formRepair':formRepair} )
+
+
+
+

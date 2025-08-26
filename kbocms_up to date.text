@@ -1,0 +1,21 @@
+10-11-2567
+update module
+title :  update image userprofile
+	file edit : 	update-user-profile.html -->add new page
+					user-profile.html --> edit photo
+					itadmin.html  -->authen management
+					computerdetail.html -->add buttom update
+					computerupdatedetail.html -->add updatedetail page
+					showalldevice.html -->add link deviceID to see detail.
+					view.py --> kbocms_bkend 
+					froms.py --->kbocms_bkend
+					urls.py --->kbocms_bkend
+
+					
+
+
+next update 
+ -set the dashboard show data when u click to see the informations.
+
+next update
+	- set model computerAccessory add field name as "WhoUsageNow"

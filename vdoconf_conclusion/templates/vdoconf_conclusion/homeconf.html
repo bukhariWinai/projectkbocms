@@ -1,0 +1,61 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ vdoconf_form.media }}
+<div class="row col-lg-12">
+    <h5>
+        <i class="ri-calendar-event-line">
+            บันทึกการประชุม VDOconference
+        </i>
+    </h5>
+    <ul class="nav">
+        <li class="nav-item">
+            <a aria-current="page" class="nav-link active " href="{% url 'homeconf_page'%}">
+                เพิ่มบันทึกการประชุม
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'allconf_page'%}">
+                ดูการประชุม VDOconference ทั้งหมด
+            </a>
+        </li>
+    </ul>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            การประชุม VDOconference
+                        </h5>
+                        <form action="" class="form-control" enctype="multipart/form-data" method="post">
+                            {% csrf_token %}
+                            <table>
+                                {{ vdoconf_form.as_table }}
+                            </table>
+                            <br>
+                                <div class="row col-lg-8" style=" text-align: left;">
+                                    <div class="col-lg-8 ">
+                                        <button class="btn btn-warning" type="submit">
+                                            <i class="ri-file-edit-line">
+                                                บันทึกข้อมูล
+                                            </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<br>
+  
+
+
+{% endblock content %}
+
+#summernote install dont forget
+</br>

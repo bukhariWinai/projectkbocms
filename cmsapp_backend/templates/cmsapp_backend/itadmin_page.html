@@ -1,0 +1,377 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% load backend_tags %}
+{% block content %}
+
+<section class="section dashboard">
+  <div class="row g-3">
+
+    <!-- Repair Card -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">รายการซ่อม <span>| <a href="{% url 'showallrepair_page'%}">ทั้งหมด</a></span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="ri ri-tools-fill" style="font-size:45px;"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{% show_all_fixitem %}</h6>
+              <span class="text-muted small">รายการ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wait Repair -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">รอดำเนินการซ่อม <span>| <a href="{% url 'showallrepair_page'%}">ทั้งหมด</a></span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="ri ri-tools-fill" style="font-size:45px; color:red;"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{% count_all_repair %}</h6>
+              <span class="text-muted small">รายการ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Repairing -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">กำลังซ่อม <span>| <a href="{% url 'showallrepair_page'%}">ทั้งหมด</a></span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="ri ri-tools-fill" style="font-size:45px; color:orange;"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{% count_all_repairing %}</h6>
+              <span class="text-muted small">รายการ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Change Part -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">กำลังเปลี่ยนอะไหล่ <span>| <a href="{% url 'showallrepair_page'%}">ทั้งหมด</a></span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="ri ri-tools-fill" style="font-size:45px; color:orange;"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{% count_all_changepart %}</h6>
+              <span class="text-muted small">รายการ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Repair Done -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">ซ่อมสำเร็จ <span>| <a href="{% url 'showallrepair_page'%}">ทั้งหมด</a></span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="ri ri-tools-fill" style="font-size:45px; color:green;"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{% count_repair_done %}</h6>
+              <span class="text-muted small">รายการ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Repair Budget -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">งบประมาณการซ่อมรวม <span>| รายละเอียด</span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="bi bi-currency-dollar" style="font-size:45px; color:green;"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{% repair_budget %}</h6>
+              <span class="text-muted small">บาท</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Borrow All -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">สถิติการยืม <span>| <a href="{% url 'showallborrow_page'%}">ทั้งหมด</a></span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="ri-hand-coin-line" style="font-size:45px; color:green;"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{% AllBorrow %}</h6>
+              <span class="text-muted small">รายการ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Borrow Using -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">กำลังใช้งาน <span>| <a href="{% url 'showallborrow_page'%}">ทั้งหมด</a></span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="ri-hand-coin-line" style="font-size:45px; color:orangered;"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{% AllBorrowUsing %}</h6>
+              <span class="text-muted small">รายการ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Borrow Returned -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card info-card sales-card">
+        <div class="card-body">
+          <h5 class="card-title">คืนแล้ว <span>| <a href="{% url 'showallborrow_page'%}">ทั้งหมด</a></span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="ri-hand-coin-line" style="font-size:45px; color:skyblue;"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{% AllBorrowDone %}</h6>
+              <span class="text-muted small">รายการ</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Officer -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card info-card customers-card">
+        <div class="card-body">
+          <h5 class="card-title">จำนวนเจ้าหน้าที่ <span>| ทั้งหมด</span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="bi bi-people"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{% allOfficer %}</h6>
+              <span class="text-muted small">คน</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trainee -->
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card info-card customers-card">
+        <div class="card-body">
+          <h5 class="card-title">จำนวนนักศึกษาฝึกงาน <span>| ทั้งหมด</span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="bi bi-people"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{% Trainee %}</h6>
+              <span class="text-muted small">คน</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+  
+
+{% if user.is_authenticated and user.profileuser.usergroup == 'admin' or user.profileuser.usergroup == 'superuser' %}
+<div class="col-lg-12">
+  <div class="card info-card customers-card">
+
+    <div class="card-body">
+      <h5 class="card-title">
+        จำนวนครุภัณฑ์คอมพิวเตอร์
+        <span>| <a href="{% url 'showalldevices_page' %}">ทั้งหมด ณ.วันที่ {% Last_year %}</a></span>
+      </h5>
+
+      <div class="row g-4">
+        <!-- สรุปตัวเลข -->
+        <div class="col-md-6 d-flex">
+          <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-light p-3 me-3">
+            <i class="ri-device-line" style="font-size:38px"></i>
+          </div>
+          <div>
+            <h6>ครุภัณฑ์คอมพิวเตอร์ทั้งหมด: <b>{% AllDevice %}</b></h6>
+            <small class="text-muted">เครื่อง</small>
+          </div>
+        </div>
+
+    <div class="col-md-6">
+    <ul class="list-unstyled mb-0">
+    <li class="d-flex align-items-center mb-3">
+      <i class="fas fa-computer fa-1x me-3" style="color:green;"></i>
+      <span>ใช้งานปกติ: <b>{% allComputer %}</b> เครื่อง</span>
+    </li>
+    <li class="d-flex align-items-center mb-3">
+      <i class="fas fa-hourglass-half fa-1x me-3" style="color:orange;"></i>
+      <span>รอจำหน่าย: <b>{% com_outdate %}</b> เครื่อง</span>
+    </li>
+    <li class="d-flex align-items-center mb-3">
+      <i class="fas fa-trash-alt fa-1x me-3" style="color:red;"></i>
+      <span>จำหน่ายแล้ว: <b>{% com_retry %}</b> เครื่อง</span>
+    </li>
+  </ul>
+  </div>
+
+
+
+
+
+      </div>
+
+      <hr/>
+
+      <!-- Charts -->
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h6 class="card-title"><i class="ri-computer-line"></i> Desktop: {% PC %} เครื่อง</h6>
+              <canvas id="pieChartPC"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h6 class="card-title"><i class="ri-macbook-line"></i> Laptop: {% NB %} เครื่อง</h6>
+              <canvas id="pieChartNB"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h6 class="card-title"><i class="bx bx-desktop"></i> All in One: {% AIO %} เครื่อง</h6>
+              <canvas id="pieChartAIO"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+
+      <!-- License / Storage -->
+      <div class="row g-4">
+        <div class="col-md-6 d-flex align-items-center">
+          <i class="bx bxl-windows me-2" style="color:gold; font-size:80px;"></i>
+          <span>{% OsLicense %} OS License</span>
+        </div>
+        <div class="col-md-6 d-flex align-items-center">
+          <i class="bx bxl-microsoft me-2" style="color:gold; font-size:80px;"></i>
+          <span>{% OfficeLicense %} Office License</span>
+        </div>
+        <div class="col-md-6 d-flex align-items-center">
+          <i class="bx bxs-hdd me-2" style="color:silver; font-size:80px;"></i>
+          <span>{% SSDdrive %} SSD</span>
+        </div>
+        <div class="col-md-6 d-flex align-items-center">
+          <i class="bx bxs-data me-2" style="color:silver; font-size:80px;"></i>
+          <span>{% HDDdrive %} HDD</span>
+        </div>
+      </div>
+
+      <hr/>
+
+      <!-- Printer / Scanner / UPS -->
+      <div class="row g-4">
+        <div class="col-md-4 d-flex align-items-center">
+          <i class="bx bx-printer me-2" style="font-size:80px;"></i>
+          <span>Printer: {% Printer %}</span>
+        </div>
+        <div class="col-md-4 d-flex align-items-center">
+          <i class="bx bx-printer me-2" style="font-size:80px;"></i>
+          <span>Scanner: {% Scanner %}</span>
+        </div>
+        <div class="col-md-4 d-flex align-items-center">
+          <i class="bx bxs-car-battery me-2" style="font-size:80px;"></i>
+          <span>UPS: {% UPS %}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- Chart.js + DataLabels -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+<script>
+const chartOptions = {
+  responsive: true,
+  plugins: {
+    legend: { position: 'bottom' },
+    datalabels: {
+      color: '#000',
+      font: { weight: 'bold', size: 14 },
+      formatter: (value, context) => {
+        const dataArr = context.chart.data.datasets[0].data;
+        const total = dataArr.reduce((a, b) => a + b, 0);
+        const percentage = ((value / total) * 100).toFixed(1);
+        return `${value} (${percentage}%)`;
+      }
+    }
+  }
+};
+
+// สร้างกราฟทุกตัว
+const chartsData = [
+  {id:'pieChartPC', labels:['สำนักงาน','ประมวลผล1','ประมวลผล2'], data:[{% pcoff %}, {% pcpro1 %}, {% pcpro2 %}], colors:['#36A2EB','#FF6384','#FFCE56']},
+  {id:'pieChartNB', labels:['สำนักงาน','ประมวลผล1','ประมวลผล2'], data:[{% nboff %}, {% nbpro1 %}, {% nbpro2 %}], colors:['#4BC0C0','#FF6384','#FFCE56']},
+  {id:'pieChartAIO', labels:['สำนักงาน','ประมวลผล1'], data:[{% aio_off %}, {% aio_pro %}], colors:['#FFCE56','#36A2EB']}
+];
+
+chartsData.forEach(item => {
+  new Chart(document.getElementById(item.id), {
+    type: 'pie',
+    data: {
+      labels: item.labels,
+      datasets: [{ data: item.data, backgroundColor: item.colors }]
+    },
+    options: chartOptions,
+    plugins: [ChartDataLabels]
+  });
+});
+</script>
+
+
+</section>
+
+
+ {% endblock content %}

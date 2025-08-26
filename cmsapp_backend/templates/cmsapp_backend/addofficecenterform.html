@@ -1,0 +1,39 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-secondary text-white">
+    <h5 class="mb-0">
+      <i class="fa-solid fa-link"></i> เพิ่มข้อมูล ลิ้งค์หน่วยงานที่เกี่ยวข้อง
+    </h5>
+  </div>
+  <div class="card-body">
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert text-center mt-3 alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="table-responsive">
+        <table class="table table-borderless">
+          {{ formprogram.as_table }}
+        </table>
+      </div>
+
+      <div class="text-start mt-3">
+        <button type="submit" class="btn btn-success">
+          <i class="fa-regular fa-floppy-disk"></i> เพิ่มข้อมูล
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+{% endblock content %}

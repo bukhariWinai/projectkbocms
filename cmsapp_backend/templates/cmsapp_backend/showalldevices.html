@@ -1,0 +1,240 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+
+{{ form.media }}
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        รายการครุภัณฑ์คอมพิวเตอร์
+                    </h5>
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                
+                                <th>
+                                    รูปครุภัณฑ์
+                                </th>
+                                <th>
+                                    เลขครุภัณฑ์
+                                </th>
+                                
+                                <th>
+                                    Brand
+                                </th>
+                                <th>
+                                    model
+                                </th>
+                                <th>
+                                    สถานะ
+                                </th>
+                                <th>
+                                    ผู้ใช้งาน
+                                </th>
+                                <th>
+                                    กลุ่มงาน
+                                </th>
+                                <th>
+                                    ผู้จัดจำหน่าย
+                                </th>
+                                
+                                <th>
+                                   ตรวจสอบข้อมูล
+                                    
+                                </th>
+                                <th>
+                                    #
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cp in Com %}
+                            <tr>
+                                
+                                <td>
+                                   {% if cp.comphoto %} 
+                                    <img class="rounded img-thumb" src="{{cp.comphoto.url}}" width="80px"
+                                    style="cursor: pointer;" alt="ภาพอุปกรณ์"
+                                    onclick="showImage('{{cp.comphoto.url}}')">
+                                    {% else %}
+                                    <img class="rounded img-thumb" src="#" width="80px"
+                                    alt="ไม่มีภาพ" style="opacity: 0.5;">
+                                    {% endif %}
+
+                                </td>
+                                <td>
+                                    <a href="{% url 'computerdetails_page' cp.id %}">
+                                        {{cp.deviceID}}
+                                    </a>
+                                </td>
+                                
+                                <td>
+                                    {{cp.combranding}}<br>
+                                    <i class="ri-calendar-check-line" style="font-size:11px ;color: orange;">อายุ {{cp.computer_used}}&nbspปี</i><br>
+                                    
+                  
+     
+                    <i class="ri-tools-line" style="font-size:12px ; color: orangered;">
+                    <a href="{% url 'showdevicerepair_page' cp.id %}">
+                            {% if cp.repair_count %}                
+                            การซ่อม&nbsp{{cp.repair_count}}&nbspครั้ง
+                            {% else %}
+                                -
+                            {% endif %}
+                                                
+                        </a>
+                                </i>
+                  
+                    
+                                </td>
+                                <td>
+                                    {{cp.commodel}}
+                                </td>
+                                <td>
+                                    {% if cp.comstatus_id == 1 or cp.comstatus_id == 2  %}
+                                        <span class="badge bg-warning text-dark"><i class="bi bi-exclamation-triangle me-1"></i> {{cp.comstatus}}</span> 
+                                    {% elif cp.comstatus_id == 3 %}
+                                        <span class="badge bg-info text-dark"><i class="bi bi-info-circle me-1"></i> {{cp.comstatus}}</span>
+                                    {% elif cp.comstatus_id == 4 %} 
+                                        <span class="badge bg-success"><i class="bi bi-info-circle me-1"></i> {{cp.comstatus}}</span>
+                                    {% elif cp.comstatus_id == 5 %} 
+                                        <span class="badge bg-secondary"><i class="bi bi-info-circle me-1"></i> {{cp.comstatus}}</span>
+                                    {% else  %}
+                                        <span class="badge bg-dark"><i class="bi bi-info-circle me-1"></i> {{cp.comstatus}}</span>
+                                    {% endif%}
+                                </td>
+                                <td>
+                                    {{cp.owner}}
+                                </td>
+                                <td>
+                                    {{cp.section}}
+                                </td>
+                                <td>
+                                    {{cp.comldealer}}
+                                </td>
+                               
+                                <td>
+                                    {% if cp.dataapprove == False %}
+                                    <a href="{% url 'computerdetails_page' cp.id %}">
+                                        <i class="bi bi-chat-square-dots">
+                                        </i>
+                                    </a>
+                                    {% else %}
+                                    <a href="{% url 'computerdetails_page' cp.id %}">
+                                        <i class="bi bi-check-circle-fill" style="color:gold;">
+                                        </i>
+                                    </a>
+                                    {% endif %}
+                                </td>
+                                 <td>
+                                    <a href="{% url 'generate_qr_pdf' cp.id %}" target="_blank">
+                                        <i class="ri-qr-code-line">
+                                        </i>
+                                    </a>
+                                </td>
+                                
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Image Overlay -->
+<div id="imageOverlay" style="
+    display: none !important;
+    position: fixed; 
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: auto;
+    padding: 20px;
+    flex-direction: column;
+  
+    text-align: center;
+">
+    <div style="position: relative;">
+        <button onclick="closeImage()" style="
+            position: absolute; top: -15px; right: -15px;
+            background: red; color: white; border: none;
+            border-radius: 50%; width: 30px; height: 30px;
+            font-size: 20px; cursor: pointer; z-index: 10001;">×</button>
+        <img id="overlayImage" src="" alt="รูปภาพ" style="border: 4px solid white; display: block;">
+    </div>
+    <p class="exit-hint">กด <b>Esc</b> หรือคลิก ❌ เพื่อออกจากภาพ</p>
+</div>
+
+
+<script>
+  function showImage(imageUrl) {
+    const overlay = document.getElementById("imageOverlay");
+    const img = document.getElementById("overlayImage");
+
+    // โหลดรูปเพื่ออ่านขนาดจริง
+    const tempImg = new Image();
+    tempImg.onload = function () {
+      const originalWidth = tempImg.naturalWidth;
+      const originalHeight = tempImg.naturalHeight;
+
+      img.src = imageUrl;
+      img.style.width = (originalWidth / 2) + 'px';
+      img.style.height = 'auto';
+
+      overlay.style.display = "flex";
+    };
+    tempImg.src = imageUrl;
+  }
+
+  function closeImage() {
+    document.getElementById("imageOverlay").style.display = "none";
+    document.getElementById("overlayImage").src = "";
+  }
+
+  // ปิดด้วย ESC
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeImage();
+    }
+  });
+
+  // ปิดเมื่อคลิกพื้นหลัง
+  document.getElementById('imageOverlay').addEventListener('click', function(e) {
+    if (e.target.id === 'imageOverlay') {
+      closeImage();
+    }
+  });
+
+    // ซ่อน popup และล้าง src เมื่อโหลดหน้าใหม่
+   window.addEventListener('load', function () {
+    const overlay = document.getElementById("imageOverlay");
+    const img = document.getElementById("overlayImage");
+
+    if (overlay) {
+      overlay.style.display = "none";
+    }
+
+    if (img) {
+      img.src = "";
+    }
+  });
+
+</script>
+
+
+
+<!-- End Table with stripped rows -->
+{% endblock content %}

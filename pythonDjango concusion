@@ -1,0 +1,200 @@
+เมื่อต้องการทำ การอัพโหลด img file แบบหลายไฟล์ครั้งเดียวกัน
+ต้องทำดังต่อไปนี้
+1.สร้าง model แบบ one to many
+class ComputerAccessory(models.Model): #model @ เครื่องคอมพิวเตอร์
+
+	hddtype = (
+		('ไม่มีฮาร์ดดิสก์','ไม่มีฮาร์ดดิสก์'),
+		('SSD','SSD'),
+		('HDD','HDD'),
+		)
+	timestamp = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+	date = models.DateTimeField(null=True,blank=True)
+	comphoto = models.ImageField(upload_to ='comphoto',null=True,blank=True,default='defaultpicture.jpg')	
+	deviceID = models.CharField(max_length=50,null=True,blank=True)
+	comserailnumber = models.CharField(max_length=50,null=True,blank=True)
+	comtype = models.ForeignKey('ComputerType',on_delete=models.CASCADE,null=True,blank=True)
+	comborrow = models.BooleanField(default=False,null=True,blank=True)#เป็๋นเครื่องยี่มใช้งานหรือมั้ย  default = false
+	combranding = models.ForeignKey('ComBranding',on_delete=models.CASCADE,null=True,blank=True)
+	commodel = models.CharField(max_length=100,null=True,blank=True)
+	comspec = models.TextField(max_length=500,null=True,blank=True)
+	hddtype = models.TextField(max_length=500,null=True,blank=True,choices=hddtype,default='SSD')	#ckbox ssd hdd
+	comprice = models.IntegerField(null=True,blank=True)		
+	comdateregister = models.DateTimeField(null=True,blank=True)
+	comldealer = models.ForeignKey('Comdealer',on_delete=models.CASCADE,null=True,blank=True)	
+	budgetproject = models.ForeignKey('ProjectBudget',on_delete=models.CASCADE,null=True,blank=True)
+	projectnumber = models.CharField(max_length=50,null=True,blank=True)		
+	comstatus = models.ForeignKey('RepairStatus',on_delete=models.CASCADE,null=True,blank=True,default=4)
+	comoslicense = models.BooleanField(default=True,null=True,blank=True) # มี ลิขสิทธ์หรือมั้ย
+	comofficelicense = models.BooleanField(default=True,null=True,blank=True) # มี ลิขสิทธ์หรือมั้ย
+	remark = models.TextField(max_length=100,null=True,blank=True)
+	owner = models.ForeignKey('ProfileUser',on_delete=models.CASCADE,null=True,blank=True)
+	section = models.ForeignKey('Sections',on_delete=models.CASCADE,null=True,blank=True)
+	
+	def __str__(self):
+		return self.owner.user.first_name #การอ้างอิง คลาส profileuser ไปยัง คลาส user
+
+class PhotoComputerAccessory(models.Model):
+	hw_number =  models.ForeignKey('ComputerAccessory',on_delete=models.CASCADE,null=True,blank=True)
+	hw_photo = models.ImageField(upload_to='hw_photo',null=True,blank=True,default='defaultpicture.jpg')
+
+	def __str__(self):
+		return f"{self.id}"
+
+
+2.ใน form.py ให้ใส่ code ข้างล่างนี้
+
+# this central fucntion use for upload multiplefile. set all view.py want use it. 		
+
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True		
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = [single_file_clean(data, initial)]
+        return result
+
+# this fucntion use for upload multiplefile. set all view.py want use it. 
+
+
+ใน class form
+
+class AddComAccessoryForm(forms.ModelForm):
+	#captcha = CaptchaField(label='กรุณาพิมพ์อักษรที่เห็น')
+
+#****	comphoto = MultipleFileField
+			(label = 'อัพโหลดภาพ', 				required=True) 
+	#********* บรรทัดนี้คือการเพิ่มไฟล์ แบบมัลติไฟล์ *****
+
+	comborrow = forms.BooleanField(required=False,label='อุปกรณ์ยืมใช้งาน')	
+	comoslicense = forms.BooleanField(required=False,label='ลิขสิทธิ์ระบบปฏิบัติการ')
+	comofficelicense = forms.BooleanField(required=False,label='ลิขสิทธิ์โปรแกรมสำนักงาน')
+	class Meta:
+		model = ComputerAccessory
+		fields = "__all__"
+
+		widgets = {
+							
+			'date':forms.TextInput(attrs={'type':'datetime-local','class':'form-control' ,'required':'True',}),
+			'deviceID':forms.TextInput(attrs={'class':'form-control','required':'True',}),
+			'comserailnumber':forms.TextInput(attrs={'class':'form-control','required':'True',}),
+			'comtype':forms.Select(attrs={'class':'form-control','required':'True',}),
+			'combranding':forms.Select(attrs={'class':'form-control','required':'True',}),
+),
+					
+		}
+
+		labels = {
+
+			'date':'วันที่ลงบันทึก',						
+			'deviceID':'เลขครุภัณฑ์',
+			'comserailnumber':'เลขซีเรียล(sn)',
+			'comtype':'ประเภท',		
+			'combranding':'ยี่ห้อ',
+			'commodel':'รุ่น',
+
+
+		} 
+
+3.ในฟังก์ชั่น view.py ให้ใส code เพื่อติดต่อฐานข้อมูล
+@login_required()
+def ComputerManagement(request):
+
+		Com = ComputerAccessory.objects.all().order_by('id').reverse()
+		
+		if request.user.profileuser.usergroup :	
+
+				if request.method == 'POST':
+					
+				# create object of form
+					formComp = AddComAccessoryForm(request.POST)
+
+					photo = request.FILES.getlist("comphoto") #field comphoto มากจาก feild เก็บค่า imagefeild ในฐานข้อมูล
+
+
+					if formComp.is_valid():
+							
+						f = formComp.save(commit=False)
+
+						f.save()
+
+						for img in photo:
+							PhotoComputerAccessory.objects.create(hw_number=f,hw_photo=img)
+
+						messages.success(request,"ถูกต้อง/บันทึกเรียบร้อยแล้ว ")
+						
+					else:
+						messages.warning(request,"พิมพ์อักษรผิด/ลองใหม่อีกครั้ง")
+						return render(request, "cmsapp_backend/computermanagement.html",{'formComp': formComp } )
+
+				context = {'formComp': AddComAccessoryForm(),'Com':Com,}
+
+				return render(request, "cmsapp_backend/computermanagement.html", context)
+
+		else:	
+			return redirect('home_page')
+
+
+ใน view.py ส่วนการแสดงผล			
+
+def ComputerDetails(request,com_id):
+	comdetail = get_object_or_404(ComputerAccessory,id=com_id) 
+	comphoto = PhotoComputerAccessory.objects.filter(hw_number_id=com_id) 
+	print('images',comphoto)
+	context = {'comdetail':comdetail,'comphoto':comphoto}
+	return render(request, 'cmsapp_backend/computerdetails.html', context)	
+
+
+ใน template html
+
+ {% for img in comphoto %}
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center ">
+                   
+                    <a href="{{ img.hw_photo.url }}  " target="_blank">
+                        <img alt="Profile" class="rounded img-fluid" src="{{ img.hw_photo.url }}" title="คลิกขยาย">
+                        </img>
+                    </a>
+
+                </div>
+        {% endfor %}
+
+
+
+
+class DailyWorkReport(models.Model):
+	usertrinee = models.ForeignKey('ProfileUser',on_delete=models.CASCADE,null=True,blank=True)
+	date = models.DateTimeField(auto_now_add=True)
+	workitem = models.CharField(max_length=100,blank=True,null=True)
+	workdisc = RichTextField(blank=True,null=True)
+	rating = models.IntegerField()
+	result = models.BooleanField(default=False)
+	remark = models.CharField(max_length=100,blank=True,null=True)
+	def __str__(self):
+		return f"{self.usertrinee} {self.workdisc} {self.result}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

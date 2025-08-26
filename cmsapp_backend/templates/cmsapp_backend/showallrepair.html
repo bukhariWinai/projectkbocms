@@ -1,0 +1,85 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+
+ <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">รายการแจ้งซ่อม</h5>
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>
+                      วันที่แจ้ง
+                    </th>
+                    <th>ผู้แจ้ง</th>
+                    <th>รหัสครุภัณฑ์</th>                    
+                    <th>อาการเสีย</th>
+                    <th>#</th>
+                    <th>#</th>
+                  
+                  </tr>
+                </thead>
+                  
+                <tbody>
+                  {% for rp in showrepair %}
+                  <tr>
+
+                    <td>{{rp.datestart}}</td>
+                    <td>{{rp.owner}}</td>                    
+                    <td>{{rp.deviceID}}</td>
+                    <td>{{rp.repaircase}}</td>
+
+                    <td>
+                      <a href="#" >
+                      {% if rp.repairstatus_id == 1 %}
+                        <i class="ri ri-tools-fill" style="color:blue; font-size: 24px; alt: 'repair';" ></i> 
+                          {% elif rp.repairstatus_id == 2 %}
+                            <i class="ri ri-tools-fill" style="color:orangered; font-size: 24px;" ></i>
+                            {% elif rp.repairstatus_id == 3 %}
+                            <i class="ri-settings-4-line" style="color:yellowgreen; font-size: 24px;" ></i>
+                            {% elif rp.repairstatus_id == 4 %}
+                              <i class="ri-user-shared-line" style="color:green; font-size: 24px;" ></i>
+                              {% elif rp.repairstatus_id == 5 %}
+                              <i class="bx bx-trash" style="color:violet; font-size: 24px;" ></i>
+                              {% elif rp.repairstatus_id == 6 %}
+                              <i class="bx bxs-trash" style="color:red; font-size: 24px;" ></i>
+                    
+                                {% endif %}
+                    </a>
+                    </td>
+
+                    <td>
+                      {% if rp.repairstatus_id == 4   %}
+                      <a href="{% url 'repairreport_page' rp.id %}"><i class="ri-bill-line" style="font-size:24px;"></i></a>
+                      {% elif rp.repairstatus_id ==  5 %}
+                      <a href="{% url 'repairreport_page' rp.id %}"><i class="ri-bill-line" style="font-size:24px;"></i></a>
+                      {% elif rp.repairstatus_id ==  6 %}
+                      <a href="{% url 'repairreport_page' rp.id %}"><i class="ri-bill-line" style="font-size:24px;"></i></a>
+                      {% else %}
+                      <a href="{% url 'repairresultupdate_page' rp.id %}"><i class="ri-draft-line" style="font-size:24px;"></i></a>
+                      {% endif %}
+
+                    </td>
+
+                  </tr> 
+                  {% endfor %}
+                </tbody>
+                
+
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    
+{% endblock content %}

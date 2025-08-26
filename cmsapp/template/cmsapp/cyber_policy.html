@@ -1,0 +1,173 @@
+
+{% extends 'cmsapp/base.html' %}
+{% load static %}
+{% block content %}
+
+
+  <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="page-header d-flex align-items-center" style="background-image: url('');">
+        <div class="container position-relative">
+          <div class="row d-flex justify-content-center">
+            <div class="col-lg-6 text-center">
+              <h2>มาตรการความมั่นคงปลอดภัยไซเบอร์</h2>
+              <p>สำนักงานสาธารณสุขจังหวัดกระบี่</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav id="navbar">
+        <div class="container">
+          <ol>
+            <li><a href="{% url 'home_page' %}">Home</a></li>
+            <li><a href="#">มาตรการความมั่นคงปลอดภัยไซเบอร์</a></li>
+          </ol>
+        </div>
+      </nav>
+    </div><!-- End Breadcrumbs -->
+
+<main id="main">
+
+
+
+
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <!--------------------->
+
+
+
+
+        <div class="my-3 p-3 bg-white rounded shadow-sm">
+          <div class="card text-darkmb-3">
+            
+                 <div class="btn btn-warning" ><h3><i class="fa-solid fa-book" >&nbsp</i>มาตรการความมั่นคงปลอดภัยไซเบอร์</h3></div>
+
+                  
+               
+          </div>
+        </div>
+
+
+
+        <!--------------------->
+
+
+
+        <!--------------------->   
+        
+        <div class="my-3 p-3 bg-white rounded shadow-sm">
+          <div class="card text-dark bg-white mb-3">
+            <div class="card-header bg-warnning">
+              <div class="card-body">
+                <div class="container">
+
+                  {% for it in itwebblog %}
+    
+                  <div class="">
+                    <h4 ><i class="{{it.icon}}"></i>&nbsp<a href="{% url 'cyberpolicydetail_page' it.id %}" target="_blank">{{it.title}}</a></h4>
+
+                  </div>
+                  {% endfor %}
+
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--------------------->
+
+
+        <div class="row gx-lg-0 gy-4">
+
+
+          <!-- start Contact Form -->
+
+          <div class="col-lg-12">
+    
+            <div class="my-3 p-3 bg-warnning rounded shadow-sm " >
+
+
+              <div class=" card text-dark bg-warning mb-3">
+
+                <div class="card-header bg-warnning">
+                        <div ><h3><i class="fa-solid fa-bullhorn">&nbsp</i>ข่าวแจ้งเตือนสร้างความตระหนักรู้และเฝ้าระวังเหตุการณ์ทางไซเบอร์ สสจ.กระบี่</h3></div>
+                </div>
+
+
+                            <div class="card-body">
+                              <div class="container">
+
+                                    <div class="row ">
+                                      <div class="col " style="color:red" ><h5>วันแจ้งเตือน</h5></div>
+                                      <div class="col " style="color: red"><h5>ระดับเสี่ยง</h5></div>
+                                      <div class="col-6 " style="color: red"><h5>เรื่องแจ้งเตือน</h5></div>
+                                      
+                                      
+                                    </div>
+                                    <hr>
+
+
+                                    {% for c in cyberalert %}
+
+                                    <div class="row ">
+                                      <div class="col" ><h6>{{c.date}}</h6></div>
+                                      <div class="col"><h6>{{c.risklevel}}</h6></div>
+                                      <div class="col-6"><h6>{{c.risktitle | safe }}</h6>
+                                      <a href="{% url 'cyberimpectdetail_page' c.id %}"><h6>รายละเอียด</h6></a></div>
+                               
+                                    </div>
+                                    <hr>
+
+                                    {% endfor %}
+
+
+
+
+                            </div>   
+
+                                                   
+                    </div>
+
+              </div>
+
+            </div>
+            
+          </div>
+
+              
+
+
+
+          <!-- End Contact Form -->
+
+        </div>
+
+        <div class="my-3 p-3 bg-warnning rounded shadow-sm ">
+            <div class=" card text-dark bg-warning mb-3">
+              <div class="card-header bg-warnning">
+                      <h3><i class="fa-solid fa-phone-volume">&nbsp</i>ศูนย์ประสานงานแจ้งเหตุภัยคุกคามทางไซเบอร์</h3>
+              </div>
+                  <div class="card-body">
+
+
+
+
+                    <h5 class="card-title">กลุ่มงานสุขภาพดิจิทัล สสจ.กระบี่</h5>
+                    <p class="card-text">075 611 012 ต่อ 111</p>
+                    <a  class="btn btn-primary">LineID:KBO.cert</a>
+                  </div>
+            </div>
+
+
+        </div>
+</section><!-- End Contact Section -->
+
+</main>
+
+  <!-- ======= Footer ======= -->
+{% endblock content %}

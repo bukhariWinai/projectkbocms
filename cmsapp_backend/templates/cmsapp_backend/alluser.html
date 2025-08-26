@@ -1,0 +1,67 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card shadow-sm">
+        <!-- Header -->
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+          <span><i class="ri-group-line"></i> รายชื่อผู้ใช้งาน</span>
+        </div>
+
+        <div class="card-body">
+          <!-- Table -->
+          <div class="table-responsive">
+            <table class="table table-striped datatable">
+              <thead class="table-light">
+                <tr>
+                  <th>Username</th>
+                  <th>ชื่อ</th>
+                  <th>นามสกุล</th>
+                  <th>ตำแหน่ง</th>
+                  <th>การใช้งาน</th>
+                  <th>กลุ่มงาน</th>
+                  <th>รูป</th>
+                  <th ><i class="bi bi-printer-fill me-1"></i></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for us in alluser %}
+                <tr>
+                  <td>
+                    <a href="{% url 'updateprofileUseradmin_page' us.user.id %}" title="อัปเดตผู้ใช้งาน">
+                      {{ us.user.username }}
+                    </a>
+                  </td>
+                  <td>{{ us.user.first_name }}</td>
+                  <td>{{ us.user.last_name }}</td>
+                  <td>{{ us.jobposition_name }}</td>
+                  <td>
+                    {% if us.user_active == 1 %}
+                      <i class="ri-user-fill text-success" style="font-size:20px;"></i>
+                    {% else %}
+                      <i class="ri-user-fill text-danger" style="font-size:20px;"></i>
+                    {% endif %}
+                  </td>
+                  <td>{{ us.sections }}</td>
+                  <td>
+                    <img src="{{ us.photo.url }}" class="rounded-circle shadow-sm" width="30" height="30" alt="รูปผู้ใช้">
+                  </td>
+                  <td><a href="{% url 'userprint_pdf' us.id %}"><i class="bi bi-printer
+                   me-1"></i></a></td>
+                  
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- End Table -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

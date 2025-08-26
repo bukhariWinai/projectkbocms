@@ -1,0 +1,79 @@
+{% extends 'cmsapp/base.html' %}
+{% load static %}
+{% block content %}
+  <!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+      <div class="page-header d-flex align-items-center" style="background-image: url('');">
+        <div class="container position-relative">
+          <div class="row d-flex justify-content-center">
+            <div class="col-lg-6 text-center">
+              <h2>สำนักงานสาธารณสุขจังหวัดกระบี่</h2>
+              {% for i in artical %}
+              <p>{{i.artical | safe }}</p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav>
+        <div class="container">
+          <ol>
+            <li><a href="{% url 'home_page'%}">Home</a></li>
+            <li>ระบบสารสนเทศคอมพิวเตอร์</li>
+          </ol>
+        </div>
+      </nav>
+    </div><!-- End Breadcrumbs -->
+
+    <section class="sample-page">
+      <div class="container" data-aos="fade-up">
+
+        <p>
+          
+          <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">ผู้ขอ</th>
+              <th scope="col">กลุ่มงาน</th>
+              <th scope="col">วันที่ขอ</th>
+              <th scope="col">ประเภทคอมพิวเตอร์</th>
+              <th scope="col">รูปแบบขอคอมพิวเตอร์</th>
+              <th scope="col">ชนิดคอมพิวเตอร์</th>
+              <th scope="col">หนังสือแนบ</th>
+              
+            </tr>
+          </thead>
+
+          {% for i in reqcom %}
+          <tbody>
+            
+            <tr>
+              <th scope="row">{{i.user.user.first_name}}</th>
+              <td>{{i.section}}</td>
+              <td>{{i.date}}</td>
+              <td>{{i.comspec}}</td>
+              <td>{{i.request}}</td>
+              <td>{{i.comtype}}</td>
+              <td><a href="{{i.bookfile.url}}">doc</a> </td>
+
+              <td></td>
+            </tr>
+            
+          
+          </tbody>
+          {% endfor %}
+        </table>
+
+        </p>
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+ {% endblock content %}

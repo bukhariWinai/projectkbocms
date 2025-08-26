@@ -1,0 +1,114 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ form.media }}
+<div class="row col-lg-12">
+    <h5>
+        <i class="ri-calendar-event-line">
+            โปรแกรมบันทึกรายการวัสดุคอมพิวเตอร์ 
+        </i>
+    </h5>
+    <ul class="nav">
+                 <li class="nav-item">
+            <a aria-current="page" class="nav-link active " href="{% url 'mainspareparts_page'%}">
+                วัสดุคงเหลือ
+            </a>
+        </li>
+        <li class="nav-item">
+            <a aria-current="page" class="nav-link active " href="{% url 'addpartstype_page'%}">
+                เพิ่มชนิดวัสดุคอมพิวเตอร์
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'addstockparts_page'%}">
+                เพิ่มรายการ stock วัสดุคอมพิวเตอร์
+            </a>
+        </li>
+
+         <li class="nav-item">
+            <a class="nav-link" href="{% url 'take_a_parts_page'%}">
+                บันทึกรายการเบิกวัสดุคอมพิวเตอร์
+            </a>
+        </li>
+     <li class="nav-item">
+            <a class="nav-link" href="{% url 'alltake_a_parts_page'%}">
+                รายการเบิกวัสดุคอมพิวเตอร์ทั้งหมด
+            </a>
+        </li>
+    </ul>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            รับเข้าสต็อกวัสดุคอมพิวเตอร์
+                        </h5>
+                <form action="" class="form-control" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    <table>
+                        {{ addstockpart.as_table }}
+                    </table>
+                    <br>
+                        <div class="row col-lg-8" style=" text-align: left;">
+                            <div class="col-lg-8 ">
+                                <button class="btn btn-warning" type="submit">
+                                    <i class="ri-file-edit-line">
+                                        บันทึกข้อมูล
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                    </br>
+                </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  let partsCatID = document.getElementById("id_parts_cat_name");
+  let partsSubID = document.getElementById("id_parts_sub_name");
+
+  if (partsCatID) {
+    partsCatID.addEventListener("change", function (e) {
+      let cat_id = e.target.value;
+
+      // Show loading message
+        partsSubID.innerHTML = `
+            <option disabled selected>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                กำลังโหลด...
+        </option>
+        `;
+      fetch("{% url 'load_subcategories_page' %}?parts_cat_name=" + cat_id)
+        .then(response => response.json())
+        .then(data => {
+          partsSubID.innerHTML = '<option value="">---------</option>';
+          if (data.length === 0) {
+            partsSubID.innerHTML += '<option value="">ไม่มีข้อมูลสเปค</option>';
+          } else {
+            data.forEach(function (item) {
+              partsSubID.innerHTML += `<option value="${item.id}">${item.parts_sub_name}</option>`;
+            });
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          partsSubID.innerHTML = '<option value="">เกิดข้อผิดพลาดในการโหลด</option>';
+          partsSubID.disabled = true;
+
+        });
+        
+    });
+  }
+});
+</script>
+
+
+</div>
+<br>
+ 
+   
+
+{% endblock content %}
+
+#summernote install dont forget
+</br>

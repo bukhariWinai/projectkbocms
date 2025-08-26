@@ -1,0 +1,81 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+{{ form.media }}
+<div class="row col-lg-12">
+    <h5>
+        <i class="ri-calendar-event-line">
+            เพิ่มบันทึกการปรับปรุงห้อง คอมพิวเตอร์ Server
+        </i>
+    </h5>
+    <ul class="nav">
+        <li class="nav-item">
+            <a aria-current="page" class="nav-link active " href="{% url 'addserver_page'%}">
+                เพิ่มเครื่องคอมพิวเตอร์เซิร์ฟเวอร์
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'servermainten_page'%}">
+                เพิ่มบันทึกการบำรุงรักษาเครือง Server
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'itemservermainten_page'%}">
+                รายการบำรุงรักษาเครือง Server
+            </a>
+        </li>
+    </ul>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            รายการบำรุงรักษาเครือง Server
+                        </h5>
+                             <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th data-type="date" data-format="MM/DD/YYYY">
+                      <b>วั</b>นที่
+                    </th>
+                    <th>ชื่อเครื่องเซิร์ฟเวอร์</th>
+                    <th>สาเหตุขัดข้อง</th>
+                    <th>วิธีการแก้ปัญหา</th>
+                    <th>ผู้บันทึก</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                   {% for mt in item_mainten %} 
+                  <tr>
+                    <td>{{mt.date}}</td>
+                    <td><a href="{% url 'servermaintendetails_page' mt.id %}
+                        ">{{mt.server_name}}</a></td>
+
+                    <td>{{mt.case_diag}}</td>
+                   
+                    <td>{{mt.resolve_Methode|safe}}</td>
+                 
+                    <td>{{mt.user}}</td>
+                
+                   {% endfor %}
+
+                </tbody>
+              </table>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<br>
+{% endblock content %}
+
+#summernote install dont forget
+</br>

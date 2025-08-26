@@ -1,0 +1,22 @@
+Alias /static /home/kbocmsadmin/kbocms/static
+	<Directory /home/kbocmsadmin/kbocms/static>
+		Require all granted
+	</Directory>
+
+	Alias /media /home/kbocmsadmin/kbocms/media
+	<Directory /home/kbocmsadmin/kbocms/media>
+		Require all granted
+	</Directory>
+
+	<Directory /home/kbocmsadmin/kbocms/kbocms>
+				<Files wsgi.py>
+			Require all granted
+		</Files>
+		</Directory>
+
+	WSGIScriptAlias / /home/kbocmsadmin/kbocms/kbocms/wsgi.py
+	WSGIDaemonProcess django_app python-path=/home/kbocmsadmin/kbocms python-home=/home/kbocmsadmin/venv
+	WSGIProcessGroup django_app
+	WSGIApplicationGroup %{GLOBAL}
+
+	#it work error 500 internal

@@ -1,0 +1,143 @@
+{% extends 'cmsapp_backend/backend_base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+          <span><i class="ri-briefcase-4-line"></i> สรุปการปฏิบัติงานนักศึกษาฝึกงาน</span>
+        </div>
+        <div class="card-body">
+          
+          <!-- วันที่ -->
+          <div class="mb-3">
+            <i class="ri-calendar-line text-primary"></i>
+            <strong>วันที่:</strong> {{ workview.date }}
+            <hr>
+          </div>
+
+          <!-- รายการปฏิบัติงาน -->
+          <div class="mb-3">
+            <i class="ri-task-line text-success"></i>
+            <strong>รายการปฏิบัติงาน:</strong> {{ workview.workitem }}
+            <hr>
+          </div>
+
+          <!-- รายละเอียดงาน -->
+          <div class="mb-3">
+            <i class="ri-file-text-line text-info"></i>
+            <strong>รายละเอียด:</strong> {{ workview.workdisc|safe }}
+            <hr>
+          </div>
+
+          <!-- คะแนน -->
+          <div class="mb-3">
+            <i class="ri-star-line text-warning"></i>
+            <strong>คะแนน:</strong>
+            {% for i in "12345" %}
+              {% if forloop.counter <= workview.rating %}
+                <i class="ri-star-fill text-warning"></i>
+              {% else %}
+                <i class="ri-star-line text-warning"></i>
+              {% endif %}
+            {% endfor %}
+            ({{ workview.rating }} / 5  )
+
+            {% if user.profileuser.usergroup == 'admin' %}
+            <a href="{% url 'workratingtrainee_page' workview.id  %}" 
+              class="text-decoration-none d-inline-flex align-items-center blink-hover">
+              <i class="ri-star-line text-warning me-1"></i> ประเมินคะแนนผลงาน
+            </a>
+
+            {% endif %}
+            <hr>
+          </div>
+
+            <div class="mb-3">
+            <i class="ri-check-line text-secondary"></i>
+            {% if workview.remark %}
+            <strong>หมายเหตุ:</strong> {{ workview.remark }}
+            <hr>
+            {% else %}
+            <strong>หมายเหตุ:</strong> -
+            <hr>
+
+            {% endif %}
+          </div>
+
+          <!-- ผู้ปฏิบัติงาน remark -->
+          <div class="mb-3">
+            <i class="ri-user-line text-secondary"></i>
+            <strong>ผู้ปฏิบัติงาน:</strong> {{ workview.usertrinee }}
+            <hr>
+          </div>
+
+          <!-- ภาพประกอบ -->
+          {% if workimage %}
+          <div class="mb-3">
+            <h6><i class="ri-image-line"></i> ภาพประกอบการปฏิบัติงาน</h6>
+            <hr>
+            <div class="d-flex flex-wrap gap-3">
+              {% for img in workimage %}
+              <div>
+                <img src="{{ img.images.url }}"
+                     class="rounded shadow-sm"
+                     width="220px" height="200px"
+                     data-bs-toggle="modal"
+                     data-bs-target="#imageModal"
+                     onclick="showFullImage('{{ img.images.url }}')">
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% else %}
+          <p><i class="ri-alert-line text-muted"></i> ไม่มีภาพประกอบ</p>
+          {% endif %}
+
+          <!-- ปุ่มย้อนกลับ และ พิมพ์ -->
+          <div class="mt-4 d-flex justify-content-between">
+            <a href="{% url 'addworkreport_page'%}" class="btn btn-secondary">
+              <i class="ri-arrow-left-line"></i> ย้อนกลับ
+            </a>
+            <button class="btn btn-outline-primary" onclick="window.print()">
+              <i class="ri-printer-line"></i> พิมพ์ PDF
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal สำหรับแสดงภาพแบบ Lightbox -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      
+      <!-- Header -->
+      <div class="modal-header bg-light border-0 rounded-top-4 px-4">
+        <h5 class="modal-title text-dark" id="imageModalLabel">
+          <i class="ri-image-line"></i> แสดงภาพประกอบการปฏิบัติงาน
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body text-center bg-white rounded-bottom-4 px-4 py-3">
+        <img id="fullImage" src="" class="img-fluid rounded-3 shadow-sm border" style="max-height: 75vh; object-fit: contain;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showFullImage(url) {
+    document.getElementById("fullImage").src = url;
+  }
+</script>
+
+
+{% endblock content %}
