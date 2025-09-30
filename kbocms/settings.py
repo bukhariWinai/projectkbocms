@@ -23,11 +23,11 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'd6+u*s30w^@)m$&xx#ld5&p9v5ve^xenoosi^p@@-6amqagwvs'
+SECRET_KEY = ''
 
 '''
 copy secert key to textfile to folder static project
-SECRET_KEY = 'd6+u*s30w^@)m$&xx#ld5&p9v5ve^xenoosi^p@@-6amqagwvs'
+SECRET_KEY = ''
 
 with open(os.path.join(BASE_DIR,'secret_key.txt')) as f:
     SECRET_KEY = f.read().strip()
